@@ -9,12 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@arcana/auth": "^1.0.0",
+    "@arcana/auth-react": "^0.0.2",
+    "@moralisweb3/common-evm-utils": "^2.13.0",
     "@next/font": "13.1.6",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
+    "ipfs-http-client": "^50.1.2",
+    "moralis": "^2.13.0",
     "next": "13.1.6",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-loader-spinner": "^5.3.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

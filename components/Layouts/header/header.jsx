@@ -1,5 +1,4 @@
-import ConnectWallet from "@/helpers/utils/connectWallet/connectWallet";
-
+import ConnectWallet from "@/helpers/connectWallet/connectWallet";
 const Header = () => {
   return (
     <div className="relative flex justify-between px-6 py-4">

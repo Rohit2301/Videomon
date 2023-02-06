@@ -1,5 +1,5 @@
 import Head from "next/head";
-
+// import UploadToIPFS from "@/helpers/uploadFileIpfs/uploader";
 const Home = () => {
   return (
     <>
@@ -11,6 +11,9 @@ const Home = () => {
       </Head>
       <main>
         <div className="text-3xl">content / body</div>
+        {/* <div> */}
+        {/* <UploadToIPFS /> */}
+        {/* </div> */}
       </main>
     </>
   );
