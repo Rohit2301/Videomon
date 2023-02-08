@@ -56,7 +56,7 @@ const UploadToIPFS = () => {
         <div className="data">
           {uploadedImages.map((image, index) => (
             <>
-              <Image
+              <img
                 className="image"
                 alt={`Uploaded #${index + 1}`}
                 src={"https://skywalker.infura-ipfs.io/ipfs/" + image.path}
