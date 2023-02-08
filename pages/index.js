@@ -1,5 +1,6 @@
 import Head from "next/head";
 import LivepeerUploader from "@/helpers/uploadFile/uploader";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 const Home = () => {
   return (
     <>
@@ -11,6 +12,7 @@ const Home = () => {
       </Head>
       <main>
         <div className="text-3xl">content / body</div>
+        <ConnectButton />
         <div>
           <LivepeerUploader />
         </div>
