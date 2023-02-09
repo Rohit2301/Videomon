@@ -13,9 +13,7 @@ const Home = () => {
       <main>
         <div className="text-3xl">content / body</div>
         <ConnectButton />
-        <div>
-          <LivepeerUploader />
-        </div>
+        <div>{/* <LivepeerUploader /> */}</div>
       </main>
     </>
   );

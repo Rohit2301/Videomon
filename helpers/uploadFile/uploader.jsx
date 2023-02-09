@@ -7,7 +7,7 @@ const LivepeerUploader = () => {
 
   const {
     mutate: createAsset,
-    data: asset,
+    data: assets,
     status,
     progress,
     error,
@@ -20,8 +20,8 @@ const LivepeerUploader = () => {
   );
 
   const handleUpload = async () => {
-    createAsset();
-    console.log(status);
+    await createAsset();
+    console.log(assets);
   };
 
   return (
@@ -43,80 +43,19 @@ const LivepeerUploader = () => {
         }}
       />
       <div onClick={handleUpload}>Upload</div>
-      <div>{/* <Player /> */}</div>
+      {assets?.map((asset) => (
+        <div key={asset.id}>
+          <div>
+            <div>Asset Name: {asset?.name} </div>
+            <div>Playback URL: {asset?.playbackUrl}</div>
+            <div>Player Back ID: {asset?.playbackId}</div>
+          </div>
+        </div>
+      ))}
+
+      {error && <div>{error.message}</div>}
     </div>
   );
 };
-// import { useCreateAsset } from "@livepeer/react";
 
-// import { useCallback, useState } from "react";
-// import { useDropzone } from "react-dropzone";
-
-// const LivepeerUploader = () => {
-//   const [video, setVideo] = useState();
-//   const {
-//     mutate: createAsset,
-//     data: asset,
-//     status,
-//     progress,
-//     error,
-//   } = useCreateAsset(
-//     video
-//       ? {
-//           sources: [{ name: video.name, file: video }],
-//         }
-//       : null
-//   );
-
-//   const onDrop = useCallback(async (acceptedFiles) => {
-//     if (acceptedFiles && acceptedFiles.length > 0 && acceptedFiles?.[0]) {
-//       setVideo(acceptedFiles[0]);
-//     }
-//   }, []);
-
-//   const { getRootProps, getInputProps } = useDropzone({
-//     accept: {
-//       "video/*": ["*.mp4"],
-//     },
-//     maxFiles: 1,
-//     onDrop,
-//   });
-
-//   const progressFormatted = useMemo(
-//     () =>
-//       progress?.[0].phase === "failed"
-//         ? "Failed to process video."
-//         : progress?.[0].phase === "waiting"
-//         ? "Waiting"
-//         : progress?.[0].phase === "uploading"
-//         ? `Uploading: ${Math.round(progress?.[0]?.progress * 100)}%`
-//         : progress?.[0].phase === "processing"
-//         ? `Processing: ${Math.round(progress?.[0].progress * 100)}%`
-//         : null,
-//     [progress]
-//   );
-
-//   return (
-//     <>
-//       <div {...getRootProps()}>
-//         <input {...getInputProps()} />
-//         <p>Drag and drop or browse files</p>
-//       </div>
-
-//       {createError?.message && <p>{createError.message}</p>}
-
-//       {video ? <p>{video.name}</p> : <p>Select a video file to upload.</p>}
-//       {progressFormatted && <p>{progressFormatted}</p>}
-
-//       <button
-//         onClick={() => {
-//           createAsset?.();
-//         }}
-//         disabled={!createAsset || createStatus === "loading"}
-//       >
-//         Upload
-//       </button>
-//     </>
-//   );
-// };
 export default LivepeerUploader;
