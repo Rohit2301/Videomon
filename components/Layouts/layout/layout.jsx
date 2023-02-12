@@ -6,8 +6,11 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header />
-      {children}
-      {/* <Footer />  */}
+      <div className="relative flex">
+        <div>{<Sidebar />}</div>
+        <div className="w-96" />
+        <div>{children}</div>
+      </div>
     </>
   );
 };

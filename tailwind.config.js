@@ -11,11 +11,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    colors: {
-      cyan: "#76DDDD",
-      grey: "#585B7B",
-    },
     extend: {
+      colors: {
+        cyan: "#76DDDD",
+        grey: "#585B7B",
+      },
       fontFamily: {
         sansationB: [
           "SansationB",
