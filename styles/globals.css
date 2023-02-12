@@ -3,7 +3,35 @@
 @tailwind utilities;
 
 @layer base {
+  @font-face {
+    font-family: "SansationB";
+    src: url("../public/assets/fonts/sansation/Sansation_Bold.ttf");
+  }
+  @font-face {
+    font-family: "SansationR";
+    src: url("../public/assets/fonts/sansation/Sansation_Regular.ttf");
+  }
+  @font-face {
+    font-family: "GothamBook";
+    src: url("../public/assets/fonts/Spotify-Font/GothamBook.ttf");
+  }
+  @font-face {
+    font-family: "GothamM";
+    src: url("../public/assets/fonts/Spotify-Font/GothamMedium.ttf");
+  }
+  @font-face {
+    font-family: "GothamB";
+    src: url("../public/assets/fonts/Spotify-Font/Gotham-Bold.otf");
+  }
+
   html {
-    background-color: rgb(202, 227, 227);
+    background: linear-gradient(
+      265.52deg,
+      #000000 19.44%,
+      #020010 61.84%,
+      #00000c 93.39%
+    );
+    @apply text-[#DEE2F3];
+    @apply font-["GothamBook"];
   }
 }

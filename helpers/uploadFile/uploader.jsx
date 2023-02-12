@@ -20,7 +20,7 @@ const LivepeerUploader = () => {
   );
 
   const handleUpload = async () => {
-    createAsset();
+    createAsset?.();
     console.log(assets);
   };
 
@@ -52,7 +52,7 @@ const LivepeerUploader = () => {
           </div>
         </div>
       ))}
-      <iframe src="https://lvpr.tv?v=193brz5km4uw974f" />
+      {/* <iframe src="https://lvpr.tv?v=193brz5km4uw974f" /> */}
       {error && <div>{error.message}</div>}
     </div>
   );
