@@ -1,10 +1,10 @@
 import Image from "next/image";
-import FileIcon from "../public/images/fileIcon.png";
-import { CyanBtn, HomeGetStartedBtn } from "@/helpers/utils/btn";
+import FileIcon from "../../public/images/fileIcon.png";
+import { CyanBtn } from "@/helpers/utils/buttons";
 const DragDropModal = () => {
   return (
     <div
-      className="relative sidebarGradient flex flex-col justify-center items-center px-10 py-6 rounded-xl gap-y-4"
+      className="relative sidebarGradient flex flex-col justify-center items-center px-20 py-12 rounded-xl gap-y-6"
       style={{ boxShadow: " 2px 4px 4px #FFFFFF" }}
     >
       <div>
@@ -21,7 +21,7 @@ const DragDropModal = () => {
         <div className="px-1 text-[#909090]">OR</div>
         <div className="w-20 h-[2px] bg-[#909090]" />
       </div>
-      <div className="relative">{<HomeGetStartedBtn data={"new"} />} </div>
+      <div className="">{<CyanBtn data={"Browse"} />}</div>
     </div>
   );
 };

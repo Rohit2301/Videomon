@@ -1,0 +1,2 @@
+const assestResDum = [{}];
+export { assestResDum };

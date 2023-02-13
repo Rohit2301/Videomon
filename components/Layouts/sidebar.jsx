@@ -1,4 +1,4 @@
-import { CyanBtn } from "@/helpers/utils/btn";
+import { CyanBtn } from "@/helpers/utils/buttons";
 const Sidebar = () => {
   return (
     <div
@@ -9,7 +9,6 @@ const Sidebar = () => {
       <div className="">Create</div>
       <div className="">Collection</div>
       <div className="">My Profile</div>
-      <CyanBtn />
     </div>
   );
 };
