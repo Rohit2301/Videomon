@@ -13,36 +13,37 @@ const StreamPlayer = () => {
   const isLoading = useMemo(() => status === "loading", [status]);
 
   return (
-    // <div>
-    //   <input
-    //     type="text"
-    //     placeholder="Stream name"
-    //     onChange={(e) => setStreamName(e.target.value)}
-    //   />
-    //   {stream?.playbackId && (
-    //     <Player
-    //       title={stream?.name}
-    //       playbackId={stream?.playbackId}
-    //       autoPlay
-    //       muted
-    //     />
-    //   )}
-    //   <div>
-    //     {!stream && (
-    //       <button
-    //       className="bg-cyan text-black"
-    //         onClick={async () => {
-    //           createStream?.();
-    //           console.log(stream)
-    //         }}
-    //         disabled={isLoading || !createStream}
-    //       >
-    //         Create Stream
-    //       </button>
-    //     )}
-    //   </div>
-    // </div>
-    <LivepeerUploader/>
+    <div>
+      <input
+        type="text"
+        placeholder="Stream name"
+        onChange={(e) => setStreamName(e.target.value)}
+      />
+      {stream?.playbackId && (
+        <Player
+          title={stream?.name}
+          playbackId={stream?.playbackId}
+          autoPlay
+          muted
+        />
+      )}
+      <div>
+        {!stream && (
+          <button
+            className="bg-cyan text-black"
+            onClick={async () => {
+              createStream?.();
+              console.log(stream);
+            }}
+            disabled={isLoading || !createStream}
+          >
+            Create Stream
+          </button>
+        )}
+      </div>
+      <div>{stream?.playbackId}</div>
+    </div>
+    // <LivepeerUploader/>
   );
 };
 

@@ -15,7 +15,7 @@ module.exports = {
     extend: {
       colors: {
         cyan: "#76DDDD",
-        grey: "#585B7B",
+        grey: "#B7B7B7",
       },
       fontFamily: {
         sansationB: [

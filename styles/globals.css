@@ -44,6 +44,13 @@
   );
 }
 
+.cyanBtnGradient:hover {
+  background: linear-gradient(266.74deg, #72cbcb -12.76%, #00b3b3 95.76%);
+}
+.cyanBtnGradient {
+  background: linear-gradient(274.46deg, #00b3b3 1.44%, #72cbcb 97.53%);
+}
+
 .slidecontainer {
   width: 100%; /* Width of the outside container */
 }

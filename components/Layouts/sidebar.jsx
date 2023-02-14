@@ -1,17 +1,15 @@
-import { CyanBtn } from "@/helpers/utils/buttons";
-
 import { useContext } from "react";
 import Context from "../../context.js";
-
+import Link from "next/link.js";
 const Sidebar = () => {
   const context = useContext(Context);
-
   return (
     <div
       style={{ boxShadow: " 2px 4px 4px #FFFFFF" }}
       className="fixed flex flex-col w-64 px-10 py-10 rounded-xl text-3xl mt-32 mx-14 gap-y-8 sidebarGradient"
     >
-      <div
+      <Link
+        href={"/explore"}
         className={`cursor-pointer ${
           context.activeClass.explore ? "text-cyan font-gothamM" : ""
         }`}
@@ -25,10 +23,13 @@ const Sidebar = () => {
         }}
       >
         Explore
-      </div>
-      <div
-        className={`cursor-pointer ${
-          context.activeClass.create ? "text-cyan font-gothamM" : ""
+      </Link>
+      <Link
+        href={"/upload"}
+        className={`cursor-pointer  ${
+          context.activeClass.create
+            ? "text-cyan font-gothamM"
+            : "hover:text-white"
         }`}
         onClick={() => {
           context.setActiveClass({
@@ -40,10 +41,13 @@ const Sidebar = () => {
         }}
       >
         Create
-      </div>
-      <div
+      </Link>
+      <Link
+        href={"/collection"}
         className={`cursor-pointer ${
-          context.activeClass.collection ? "text-cyan font-gothamM" : ""
+          context.activeClass.collection
+            ? "text-cyan font-gothamM"
+            : "hover:text-white"
         }`}
         onClick={() => {
           context.setActiveClass({
@@ -55,10 +59,13 @@ const Sidebar = () => {
         }}
       >
         Collection
-      </div>
-      <div
-        className={`cursor-pointer ${
-          context.activeClass.myProfile ? "text-cyan font-gothamM" : ""
+      </Link>
+      <Link
+        href={"/profile"}
+        className={`cursor-pointer  ${
+          context.activeClass.myProfile
+            ? "text-cyan font-gothamM"
+            : "hover:text-white"
         }`}
         onClick={() => {
           context.setActiveClass({
@@ -70,7 +77,7 @@ const Sidebar = () => {
         }}
       >
         My Profile
-      </div>
+      </Link>
     </div>
   );
 };
