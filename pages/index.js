@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useRouter } from "next/router";
 
-
 const Home = () => {
   const router = useRouter();
 
@@ -18,17 +17,9 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="text-3xl">content / body</div>
-
-        <div>{/* <LivepeerUploader /> */}</div>
-
-        <ConnectButton />
-        <div>
-          <LivepeerUploader />{" "}
-        </div>
-
-        <button
-          className="bg-cyan text-black"
+        <LivepeerUploader />
+        {/* <button
+          className="bg-red-500"
           onClick={() => {
             router.push({
               pathname: "VideoPlayer",
@@ -40,18 +31,7 @@ const Home = () => {
           }}
         >
           Video Player
-        </button>
-        <button
-          className="bg-cyan text-black ml-5"
-          onClick={() => {
-            router.push({
-              pathname: "StreamPlayer",
-            });
-          }}
-        >
-          Stream Player
-        </button>
-
+        </button> */}
       </main>
     </>
   );
