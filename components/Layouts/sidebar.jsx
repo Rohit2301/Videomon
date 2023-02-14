@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import Context from "../../context.js";
 import Link from "next/link.js";
+
 const Sidebar = () => {
   const context = useContext(Context);
   return (

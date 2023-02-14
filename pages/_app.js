@@ -77,7 +77,6 @@ const wagmiClient = createClient({
 // =-----------------------------------------Connectors-----------------------------------------------------------
 
 export default function App({ Component, pageProps }) {
-
   const [activeClass, setActiveClass] = useState({
     explore: true,
     create: false,
@@ -88,6 +87,10 @@ export default function App({ Component, pageProps }) {
   const [superToken, setSuperToken] = useState();
   const [superTokenBalance, setSuperTokenBalance] = useState();
   const { address } = useAccount();
+
+  const [videoFile, setVideoFile] = useState();
+  const [thumbnail, setThumbnail] = useState();
+  const [videoDuration, setVideoDuration] = useState();
 
   const initSf = async (provider) => {
     const sf = await Framework.create({
@@ -126,6 +129,12 @@ export default function App({ Component, pageProps }) {
               superTokenBalance,
               setSuperTokenBalance,
               initSf,
+              videoFile,
+              setVideoFile,
+              thumbnail,
+              setThumbnail,
+              videoDuration,
+              setVideoDuration,
             }}
           >
             <Layout>

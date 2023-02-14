@@ -251,5 +251,3 @@ const assestResDum = [
   },
 ];
 export { assestResDum };
-
-// videoPic;
