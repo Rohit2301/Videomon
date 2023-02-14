@@ -1,5 +1,7 @@
 import "@/styles/globals.css";
 import Layout from "@/components/Layouts/layout/layout";
+import { Framework } from "@superfluid-finance/sdk-core";
+import { useSigner, useContract, useProvider, useAccount } from "wagmi";
 // --------------------------------------------Livepeer--------------------------------------------------
 import {
   LivepeerConfig,
@@ -30,6 +32,8 @@ import {
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
+import React, { useState, useEffect } from "react";
+import Context from "../context";
 
 export const ArcanaRainbowConnector = ({ chains }) => {
   return {
@@ -73,13 +77,61 @@ const wagmiClient = createClient({
 // =-----------------------------------------Connectors-----------------------------------------------------------
 
 export default function App({ Component, pageProps }) {
+
+  const [activeClass, setActiveClass] = useState({
+    explore: true,
+    create: false,
+    collection: false,
+    myProfile: false,
+  });
+  const [sf, setSf] = useState();
+  const [superToken, setSuperToken] = useState();
+  const [superTokenBalance, setSuperTokenBalance] = useState();
+  const { address } = useAccount();
+
+  const initSf = async (provider) => {
+    const sf = await Framework.create({
+      chainId: provider.network.chainId, //your chainId here
+      provider,
+    });
+    setSf(sf);
+    console.log(sf);
+    console.log(provider.network.chainId);
+    if (provider.network.chainId == "80001") {
+      const maticX = await sf.loadSuperToken(
+        "0x96B82B65ACF7072eFEb00502F45757F254c2a0D4"
+      );
+      console.log(maticX);
+      setSuperToken(maticX);
+      const maticXBalance = await maticX.balanceOf({
+        account: address,
+        providerOrSigner: provider,
+      });
+      setSuperTokenBalance(maticXBalance);
+    }
+  };
+
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <LivepeerConfig client={livepeerClient}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <Context.Provider
+            value={{
+              activeClass,
+              setActiveClass,
+              sf,
+              setSf,
+              superToken,
+              setSuperToken,
+              superTokenBalance,
+              setSuperTokenBalance,
+              initSf,
+            }}
+          >
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </Context.Provider>
         </LivepeerConfig>
       </RainbowKitProvider>
     </WagmiConfig>

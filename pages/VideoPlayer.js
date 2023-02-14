@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReactHlsPlayer from "react-hls-player";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
@@ -7,6 +7,7 @@ import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { useSigner, useContract, useProvider, useAccount } from "wagmi";
 import { Framework } from "@superfluid-finance/sdk-core";
+import Context from "../context";
 import { Router, useRouter } from "next/router";
 
 const VideoPlayer = ({ videoLink, startTime = 0 }) => {
@@ -24,6 +25,7 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
   const [superTokenMatic, setSuperTokenMatic] = useState();
   const [flowInfo, setFlowInfo] = useState();
   const router = useRouter();
+  const context = useContext(Context)
 
   useEffect(() => {
     playerRef.current.currentTime = startTime;
@@ -43,32 +45,10 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
   }, []);
 
   useEffect(() => {
-    const initSf = async () => {
-      const sf = await Framework.create({
-        chainId: provider.network.chainId, //your chainId here
-        provider,
-      });
-      setSf(sf);
-      console.log(sf)
-      console.log(provider.network.chainId)
-      if (provider.network.chainId == "80001") {
-        const maticX = await sf.loadSuperToken(
-          "0x96B82B65ACF7072eFEb00502F45757F254c2a0D4"
-        );
-        console.log(maticX)
-        setSuperTokenMatic(maticX);
-        const flowInfo = await maticX.getFlow({
-          sender: "0x4562F39FAEEdB490B3Bf0D6024F46DBD5c40cF04",
-          receiver: "0xF2B7CfDb834Bf075144ca9E309Ff0AE0B7860AC8",
-          providerOrSigner: provider,
-        });
-        setFlowInfo(flowInfo);
-      }
-    };
     if (provider && signer) {
-        initSf();
+        context.initSf(provider);
       }
-  }, [provider, signer, superTokenMatic]);
+  }, [provider, signer, context.superToken]);
 
   const handleTimeUpdate = () => {
     const { currentTime, duration } = playerRef.current;
@@ -86,13 +66,13 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
     if (isPlaying) {
       playerRef.current.pause();
       setIsPlaying(!isPlaying);
-      let flowOp = superTokenMatic.deleteFlow({
+      let flowOp = context.superToken.deleteFlow({
         sender: "0x4562F39FAEEdB490B3Bf0D6024F46DBD5c40cF04",
         receiver: "0xF2B7CfDb834Bf075144ca9E309Ff0AE0B7860AC8",
       });
       await flowOp.exec(signer);
     } else {
-      let flowOp = superTokenMatic.createFlow({
+      let flowOp = context.superToken.createFlow({
         sender: "0x4562F39FAEEdB490B3Bf0D6024F46DBD5c40cF04",
         receiver: "0xF2B7CfDb834Bf075144ca9E309Ff0AE0B7860AC8",
         flowRate: "1000000000000",
@@ -104,20 +84,15 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
     }
   };
 
-  //   const toggleControls = () => {
-  //     playerRef.current.controls = !playerRef.current.controls;
-  //   };
   const handleStop = async () => {
     playerRef.current.pause();
     setIsPlaying(false);
-    let flowOp = superTokenMatic.deleteFlow({
+    let flowOp = context.superToken.deleteFlow({
         sender: "0x4562F39FAEEdB490B3Bf0D6024F46DBD5c40cF04",
         receiver: "0xF2B7CfDb834Bf075144ca9E309Ff0AE0B7860AC8",
       });
     const txn = await flowOp.exec(signer);
     await txn.wait();
-    router.push("")
-    
     console.log(playerRef.current.currentTime);
     
   };
@@ -197,7 +172,6 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
                   value={volume}
                   onChange={handleVolume}
                 />
-                <span onClick={()=>{console.log(provider, signer, flowInfo, superTokenMatic, sf)}}>Flow Info</span>
               </div>
             </div>
           </div>

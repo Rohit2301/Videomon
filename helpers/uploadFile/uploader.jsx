@@ -20,8 +20,10 @@ const LivepeerUploader = () => {
   );
 
   const handleUpload = async () => {
+    console.log("uploaded")
     createAsset?.();
     console.log(assets);
+    
   };
 
   return (
