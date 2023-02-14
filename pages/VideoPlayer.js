@@ -34,6 +34,9 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
       setCurrentTime(playerRef.current.currentTime);
     };
     playerRef.current.addEventListener("timeupdate", handleTimeUpdate);
+    if(playerRef.current.currentTime===playerRef.current.duration){
+        handleStop();
+    }
     return () => {
       playerRef.current.removeEventListener("timeupdate", handleTimeUpdate);
     };

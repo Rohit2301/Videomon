@@ -1,5 +1,6 @@
 import Head from "next/head";
 import LivepeerUploader from "@/helpers/uploadFile/uploader";
+
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useRouter } from "next/router";
 
@@ -16,12 +17,31 @@ const Home = () => {
       </Head>
       <main>
         <div className="text-3xl">content / body</div>
+
+        <div>{/* <LivepeerUploader /> */}</div>
+
         <ConnectButton />
         {/* <div>
           <LivepeerUploader />{" "}
         </div> */}
+
         <button
           className="bg-red-500"
+          onClick={() => {
+            router.push({
+              pathname: "VideoPlayer",
+              query: {
+                videoLink:
+                  "https://lp-playback.com/hls/193brz5km4uw974f/index.m3u8",
+              },
+            });
+          }}
+        >
+          Video Player
+        </button>
+
+        <button
+          className="bg-cyan"
           onClick={() => {
             router.push({
               pathname: "VideoPlayer",
