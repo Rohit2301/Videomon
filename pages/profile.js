@@ -6,7 +6,7 @@ import Image from "next/image";
 const Profile = () => {
   return (
     <div className="">
-      <div>Anonymus User</div>
+      <div className="font-sansationR text-4xl pt-12 pb-8">Anonymus User</div>
       <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
         {assestResDum.map((asset, index) => {
           const {
@@ -21,7 +21,7 @@ const Profile = () => {
           } = asset;
           return (
             <div key={index} className="font-sansationR">
-              <div className="w-80 ">
+              <div className="w-80 cursor-pointer">
                 <Image
                   src={tanjiro}
                   alt={"rrr image"}

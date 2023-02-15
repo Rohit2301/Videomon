@@ -1,16 +1,20 @@
 import DragDropModal from "@/components/uploadPage/dragDropModal";
 import { CyanBtn } from "@/helpers/utils/buttons";
-import TextF from "@/components/uploadPage/textField";
 import { useState } from "react";
 import Context from "../context.js";
 import { useContext } from "react";
+import {
+  VideoTitleInput,
+  VideoDescriptionInput,
+  VideoPriceInput,
+} from "@/components/uploadPage/textField";
 
 const Upload = () => {
   const context = useContext(Context);
   const [thumbnailName, setThumbnailName] = useState("Select");
   return (
     <div>
-      <form>
+      <form onSubmit={() => console.log("sumit")}>
         <div className="flex flex-col items-center justify-center py-16 px-20 gap-y-10 ">
           <div className="self-start text-2xl font-sansationR text-white">
             Enter the details of your video
@@ -19,9 +23,11 @@ const Upload = () => {
           <div className="flex items-center justify-center gap-x-40">
             {/* text field form */}
             <div className="flex flex-col gap-y-10 self-start">
-              <div>{<TextF label={"Title"} />}</div>
-              <div>{<TextF label={"Description"} />}</div>
-              <div>{<TextF label={"Price"} />}</div>
+              <div>
+                <VideoTitleInput label={"Title"} />
+              </div>
+              <div>{<VideoDescriptionInput label={"Description"} />}</div>
+              <div>{<VideoPriceInput label={"Price"} />}</div>
               {/* thumbnail */}
               <div className="flex items-center justify-between pr-5">
                 <div className="relative font-sansationR text-xl">
@@ -50,7 +56,9 @@ const Upload = () => {
           </div>
           {/* drop modla and form  */}
           <div className="relative w-32 right-20">
-            {<CyanBtn data={"Upload"} />}
+            <CyanBtn>
+              <input type="submit" value="Upload" className="cursor-pointer" />
+            </CyanBtn>
           </div>
         </div>
       </form>

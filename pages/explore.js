@@ -39,7 +39,7 @@ const Explore = () => {
           } = asset;
           return (
             <div key={index} className="font-sansationR">
-              <div className="w-80 ">
+              <div className="w-80 cursor-pointer">
                 <Image
                   src={tanjiro}
                   alt={"rrr image"}

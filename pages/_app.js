@@ -91,6 +91,8 @@ export default function App({ Component, pageProps }) {
   const [videoFile, setVideoFile] = useState();
   const [thumbnail, setThumbnail] = useState();
   const [videoDuration, setVideoDuration] = useState();
+  const [videoTitle, setVideoTitle] = useState();
+  const [videoDescription, setVideoDescription] = useState();
 
   const initSf = async (provider) => {
     const sf = await Framework.create({
@@ -135,6 +137,8 @@ export default function App({ Component, pageProps }) {
               setThumbnail,
               videoDuration,
               setVideoDuration,
+              videoTitle,
+              setVideoTitle,
             }}
           >
             <Layout>

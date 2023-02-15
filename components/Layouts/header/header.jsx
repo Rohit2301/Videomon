@@ -32,7 +32,7 @@ const Header = () => {
           />
         </Link>
       </div>
-      <div className="text-cyan text-5xl">VideoMon</div>
+      <div className="text-cyan text-5xl font-sansationR">Videomon</div>
       <div className="relative top-2">
         <ConnectButton />
       </div>
