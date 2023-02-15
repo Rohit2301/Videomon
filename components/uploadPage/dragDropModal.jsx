@@ -3,9 +3,9 @@ import FileIcon from "../../public/images/fileIcon.png";
 import { CyanBtn } from "@/helpers/utils/buttons";
 import Context from "../../context";
 import { useContext, useState } from "react";
+import { useCreateAsset } from "@livepeer/react";
 
-const DragDropModal = () => {
-  const context = useContext(Context);
+const DragDropModal = ({ setVideo, setFileName, setVideoDuration }) => {
   const [videoName, setVideoName] = useState("Browse");
 
   const getVideoDuration = (file) =>
@@ -32,8 +32,9 @@ const DragDropModal = () => {
   const handleVideoDuration = async (e) => {
     const duration = await getVideoDuration(e.target.files[0]);
     const actualDurationString = SecondsToHms(duration);
-    context.setVideoDuration(actualDurationString);
+    setVideoDuration(actualDurationString);
   };
+
   return (
     <div
       className="relative sidebarGradient flex flex-col justify-center items-center px-20 py-12 rounded-xl gap-y-6"
@@ -59,11 +60,13 @@ const DragDropModal = () => {
             id="videoFile"
             name="videoFile"
             type="file"
+            accept={"video/*"}
             className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
             onChange={(e) => {
-              context.setVideoFile(e.target.files[0]);
               setVideoName(e.target.files[0].name);
               handleVideoDuration(e);
+              setVideo(e.target.files[0]);
+              setFileName(e.target.files[0].name);
             }}
           ></input>
         </CyanBtn>

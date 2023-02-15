@@ -4,6 +4,7 @@ import React, { useState } from "react";
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useRouter } from "next/router";
+import UploadToIPFS from "../helpers/uploadFile/uploadIPFS.jsx";
 
 const Home = () => {
   const router = useRouter();
@@ -17,7 +18,8 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <LivepeerUploader />
+        {/* <LivepeerUploader /> */}
+        <UploadToIPFS />
         {/* <button
           className="bg-red-500"
           onClick={() => {

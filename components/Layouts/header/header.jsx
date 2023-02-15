@@ -14,7 +14,7 @@ const Header = () => {
     >
       <div className="">
         <Link
-          href={"/explore"}
+          href={"/"}
           onClick={() => {
             context.setActiveClass({
               explore: true,

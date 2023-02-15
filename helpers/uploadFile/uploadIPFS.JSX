@@ -27,7 +27,6 @@ const UploadToIPFS = () => {
     const file = files[0];
     // upload files
     const result = await ipfs.add(file);
-
     setUploadedImages([
       ...uploadedImages,
       {
@@ -54,7 +53,7 @@ const UploadToIPFS = () => {
           </div>
         ) : null}
         <div className="data">
-          {uploadedImages.map((image, index) => (
+          {uploadedImages?.map((image, index) => (
             <>
               <img
                 className="image"

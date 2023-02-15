@@ -1,6 +1,4 @@
 import { createTheme, TextField, ThemeProvider } from "@mui/material";
-import Context from "../../context";
-import { useContext } from "react";
 
 const theme = createTheme({
   palette: {
@@ -11,8 +9,7 @@ const theme = createTheme({
   },
 });
 
-export const VideoTitleInput = ({ label }) => {
-  const context = useContext(Context);
+export const VideoTitleInput = ({ label, setVideoTitle }) => {
   return (
     <ThemeProvider theme={theme}>
       <TextField
@@ -22,8 +19,7 @@ export const VideoTitleInput = ({ label }) => {
         color="primary"
         fullWidth
         multiline
-        onChange={(e) => context.setVideoTitle(e.target.value)}
-        type={"number"}
+        onChange={(e) => setVideoTitle(e.target.value)}
         /* styles the wrapper */
         style={{
           width: "400px",
@@ -44,8 +40,7 @@ export const VideoTitleInput = ({ label }) => {
     </ThemeProvider>
   );
 };
-export const VideoDescriptionInput = ({ label }) => {
-  const context = useContext(Context);
+export const VideoDescriptionInput = ({ label, setVideoDescription }) => {
   return (
     <ThemeProvider theme={theme}>
       <TextField
@@ -55,8 +50,7 @@ export const VideoDescriptionInput = ({ label }) => {
         color="primary"
         fullWidth
         multiline
-        onChange={(e) => context.setVideoTitle(e.target.value)}
-        type={"number"}
+        onChange={(e) => setVideoDescription(e.target.value)}
         /* styles the wrapper */
         style={{
           width: "400px",
@@ -77,8 +71,7 @@ export const VideoDescriptionInput = ({ label }) => {
     </ThemeProvider>
   );
 };
-export const VideoPriceInput = ({ label }) => {
-  const context = useContext(Context);
+export const VideoPriceInput = ({ label, setVideoPrice }) => {
   return (
     <ThemeProvider theme={theme}>
       <TextField
@@ -88,8 +81,7 @@ export const VideoPriceInput = ({ label }) => {
         color="primary"
         fullWidth
         multiline
-        onChange={(e) => context.setVideoTitle(e.target.value)}
-        type={"number"}
+        onChange={(e) => setVideoPrice(e.target.value)}
         /* styles the wrapper */
         style={{
           width: "400px",

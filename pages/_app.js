@@ -88,12 +88,6 @@ export default function App({ Component, pageProps }) {
   const [superTokenBalance, setSuperTokenBalance] = useState();
   const { address } = useAccount();
 
-  const [videoFile, setVideoFile] = useState();
-  const [thumbnail, setThumbnail] = useState();
-  const [videoDuration, setVideoDuration] = useState();
-  const [videoTitle, setVideoTitle] = useState();
-  const [videoDescription, setVideoDescription] = useState();
-
   const initSf = async (provider) => {
     const sf = await Framework.create({
       chainId: provider.network.chainId, //your chainId here
@@ -131,14 +125,6 @@ export default function App({ Component, pageProps }) {
               superTokenBalance,
               setSuperTokenBalance,
               initSf,
-              videoFile,
-              setVideoFile,
-              thumbnail,
-              setThumbnail,
-              videoDuration,
-              setVideoDuration,
-              videoTitle,
-              setVideoTitle,
             }}
           >
             <Layout>
