@@ -93,7 +93,9 @@ export default function App({ Component, pageProps }) {
   const { address } = useAccount();
 
   const currProvider = useProvider();
-  const [signer, setSigner] = useState()
+  const [signer, setSigner] = useState();
+
+  const [allVideos, setAllVideos] = useState([])
 
   useEffect(() => {
     const settingContract = async () => {
