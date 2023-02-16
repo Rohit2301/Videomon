@@ -78,7 +78,6 @@ const wagmiClient = createClient({
 // =-----------------------------------------Connectors-----------------------------------------------------------
 
 export default function App({ Component, pageProps }) {
-
   // const { data: signer} = useSigner()
   const [activeClass, setActiveClass] = useState({
     explore: true,
@@ -94,7 +93,7 @@ export default function App({ Component, pageProps }) {
   const { address } = useAccount();
 
   const currProvider = useProvider();
-  const [signer, setSigner] = useState()
+  const [signer, setSigner] = useState();
 
   useEffect(() => {
     const settingContract = async () => {
@@ -105,7 +104,7 @@ export default function App({ Component, pageProps }) {
       );
       setContractEthers(contractEthers);
     };
-    if (currProvider, signer) {
+    if ((currProvider, signer)) {
       settingContract();
     }
   }, [currProvider, signer]);
@@ -156,7 +155,7 @@ export default function App({ Component, pageProps }) {
               contract,
               contractEthers,
               signer,
-              setSigner
+              setSigner,
             }}
           >
             <Layout>

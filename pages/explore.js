@@ -23,7 +23,8 @@ const Explore = () => {
   return (
     <div className="pt-14 pb-10">
       <div className="w-full">
-        <UploadModal />
+        <div>Videos</div>
+        <div>Stream</div>
       </div>
       <div>{context.superTokenBalance}</div>
       <div className="text-4xl font-sansationR pb-8">Explore</div>

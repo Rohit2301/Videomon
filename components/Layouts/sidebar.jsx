@@ -29,7 +29,7 @@ const Sidebar = () => {
       <Link
         href={"/upload"}
         className={`cursor-pointer  ${
-          context.activeClass.create
+          context.activeClass.upload
             ? "text-cyan font-gothamM"
             : "hover:text-white"
         }`}

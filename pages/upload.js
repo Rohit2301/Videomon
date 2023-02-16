@@ -16,6 +16,7 @@ import {
 import { useCreateAsset } from "@livepeer/react";
 import { useMemo } from "react";
 import { useRouter } from "next/router.js";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 const Upload = () => {
   const router = useRouter();
@@ -30,6 +31,7 @@ const Upload = () => {
   const [videoTitle, setVideoTitle] = useState();
   const [videoDescription, setVideoDescription] = useState();
   const [videoPrice, setVideoPrice] = useState();
+  const [loading, setLoading] = useState(false);
   //
 
   const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_NFT_STORAGE_API_KEY;
@@ -55,8 +57,8 @@ const Upload = () => {
       };
     });
   }
-
   const thumbnailUploader = async (e) => {
+    setLoading(true);
     const thumbnailName = e.target.files[0].name;
     setThumbnailName(thumbnailName);
     const thumbnail = e.target.files[0];
@@ -73,6 +75,7 @@ const Upload = () => {
     const cid = await client.storeBlob(blobFile);
     console.log(cid);
     setVideoPicCid(cid);
+    setLoading(false);
   };
 
   const {
@@ -102,6 +105,7 @@ const Upload = () => {
     [progress]
   );
   const handleUpload = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const videoDurationBig = ethers.utils.parseUnits(
       videoDuration.toString(),
@@ -134,129 +138,149 @@ const Upload = () => {
       flowRateBig
     );
     await txn.wait();
+    setLoading(false);
     router.push("explore");
     // console.log(videoDuration, videoTitle, videoDescription, videoPrice);
   };
   return (
     <div>
-      <form
-        onSubmit={(e) => {
-          handleUpload(e);
-        }}
+      <div
+        className={`${
+          loading
+            ? "z-10 absolute  w-[70rem] h-[34rem] flex justify-center items-center"
+            : "w-0 h-0"
+        }`}
       >
-        <div className="flex flex-col items-center justify-center py-16 px-20 gap-y-10 ">
-          <div
-            className="self-start text-2xl font-sansationR text-white"
-            onClick={() => {
-              console.log(context.signer);
-            }}
-          >
-            Enter the details of your video
-          </div>
-          {/* drop modla and form  */}
-          <div className="flex items-center justify-center gap-x-40">
-            {/* text field form */}
-            <div className="flex flex-col gap-y-10 self-start">
-              <div>
-                <VideoTitleInput
-                  label={"Title"}
-                  setVideoTitle={setVideoTitle}
-                />
-              </div>
-              <div>
-                {
-                  <VideoDescriptionInput
-                    label={"Description"}
-                    setVideoDescription={setVideoDescription}
+        {loading ? (
+          <PropagateLoader color={"#76DDDD"} loading={loading} size={16} />
+        ) : (
+          <></>
+        )}
+      </div>
+      <div className={`z-0 ${loading ? "opacity-30" : ""}`}>
+        <form
+          onSubmit={(e) => {
+            handleUpload(e);
+          }}
+        >
+          <div className="flex flex-col items-center justify-center py-16 px-20 gap-y-10 ">
+            <div
+              className="self-start text-2xl font-sansationR text-white"
+              onClick={() => {
+                console.log(context.signer);
+              }}
+            >
+              Enter the details of your video
+            </div>
+            {/* drop modla and form  */}
+            <div className="flex items-center justify-center gap-x-40">
+              {/* text field form */}
+              <div className="flex flex-col gap-y-10 self-start">
+                <div>
+                  <VideoTitleInput
+                    label={"Title"}
+                    setVideoTitle={setVideoTitle}
                   />
-                }
-              </div>
-              <div>
-                {
-                  <VideoPriceInput
-                    label={"Price"}
-                    setVideoPrice={setVideoPrice}
-                  />
-                }
-              </div>
-              <div className="flex items-center justify-between pr-5">
-                <div className="relative font-sansationR text-xl">
-                  Thumbnail
                 </div>
-                {client ? (
-                  <div className="w-30">
-                    <CyanBtn
-                      data={thumbnailName}
-                      size="text-lg"
-                      // overflow={thumbnailName.length > 8}
-                    >
-                      <input
-                        id="thumbnail"
-                        name="thumbnail"
-                        type="file"
-                        className="absolute inset-0 opacity-0 w-full h-full"
-                        onChange={(e) => {
-                          thumbnailUploader(e);
-                        }}
-                      ></input>
-                    </CyanBtn>
-                  </div>
-                ) : (
-                  "Please connect ipfs first"
-                )}
                 <div>
                   {
-                    imageSrc ? (
-                      <>
-                        <img
-                          className="image"
-                          alt={`Uploaded `}
-                          src={imageSrc}
-                          style={{ maxWidth: "80px", margin: "0px" }}
-                          // key={uploadedImages.cid.toString()}
-                        />
-                      </>
-                    ) : (
-                      <></>
-                    )
-                    // ))
+                    <VideoDescriptionInput
+                      label={"Description"}
+                      setVideoDescription={setVideoDescription}
+                    />
                   }
                 </div>
-              </div>
-              {/*  */}
+                <div>
+                  {
+                    <VideoPriceInput
+                      label={"Price"}
+                      setVideoPrice={setVideoPrice}
+                    />
+                  }
+                </div>
+                <div className="flex items-center justify-between pr-5">
+                  <div className="relative font-sansationR text-xl">
+                    Thumbnail
+                  </div>
+                  {client ? (
+                    <div className="w-30">
+                      <CyanBtn
+                        data={thumbnailName}
+                        size="text-lg"
+                        // overflow={thumbnailName.length > 8}
+                      >
+                        <input
+                          id="thumbnail"
+                          name="thumbnail"
+                          type="file"
+                          className="absolute inset-0 opacity-0 w-full h-full"
+                          onChange={(e) => {
+                            thumbnailUploader(e);
+                          }}
+                        ></input>
+                      </CyanBtn>
+                    </div>
+                  ) : (
+                    "Please connect ipfs first"
+                  )}
+                  <div>
+                    {
+                      imageSrc ? (
+                        <>
+                          <img
+                            className="image"
+                            alt={`Uploaded `}
+                            src={imageSrc}
+                            style={{ maxWidth: "80px", margin: "0px" }}
+                            // key={uploadedImages.cid.toString()}
+                          />
+                        </>
+                      ) : (
+                        <></>
+                      )
+                      // ))
+                    }
+                  </div>
+                </div>
+                {/*  */}
 
-              {/* thumbnail */}
+                {/* thumbnail */}
+              </div>
+              {/* text field form */}
+              <div>
+                {
+                  <DragDropModal
+                    setVideo={setVideo}
+                    setFileName={setFileName}
+                    setVideoDuration={setVideoDuration}
+                  />
+                }
+              </div>
+              {progressFormatted && <p>{progressFormatted}</p>}
+              {/* <div>{context.videoDuration}</div> */}
             </div>
-            {/* text field form */}
-            <div>
-              {
-                <DragDropModal
-                  setVideo={setVideo}
-                  setFileName={setFileName}
-                  setVideoDuration={setVideoDuration}
+            {/* drop modla and form  */}
+            <div className="relative w-32 right-20">
+              <CyanBtn>
+                <input
+                  type="submit"
+                  value="Upload"
+                  className="cursor-pointer"
                 />
-              }
+              </CyanBtn>
             </div>
-            {progressFormatted && <p>{progressFormatted}</p>}
-            {/* <div>{context.videoDuration}</div> */}
           </div>
-          {/* drop modla and form  */}
-          <div className="relative w-32 right-20">
-            <CyanBtn>
-              <input type="submit" value="Upload" className="cursor-pointer" />
-            </CyanBtn>
+        </form>
+        {assets?.map((asset) => (
+          <div key={asset.id}>
+            <div>
+              <div>Asset Name: {asset?.name} </div>
+              <div>Playback URL: {asset?.playbackUrl}</div>
+              <div>Player Back ID: {asset?.playbackId}</div>
+            </div>
           </div>
-        </div>
-      </form>
-      {assets?.map((asset) => (
-        <div key={asset.id}>
-          <div>
-            <div>Asset Name: {asset?.name} </div>
-            <div>Playback URL: {asset?.playbackUrl}</div>
-            <div>Player Back ID: {asset?.playbackId}</div>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
