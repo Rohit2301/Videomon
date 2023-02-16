@@ -13,8 +13,6 @@ import {
   VideoDescriptionInput,
   VideoPriceInput,
 } from "@/components/uploadPage/textField";
-import { useCreateAsset } from "@livepeer/react";
-import { useMemo } from "react";
 import { useRouter } from "next/router.js";
 import PropagateLoader from "react-spinners/PropagateLoader";
 
@@ -33,11 +31,19 @@ const Upload = () => {
   const [videoPrice, setVideoPrice] = useState();
   const [loading, setLoading] = useState(false);
   //
+  const [uploadedSuccessful, setUploadedSuccessful] = useState(false);
+  const [videoCid, setVideoCid] = useState();
 
   const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_NFT_STORAGE_API_KEY;
   const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
 
   const context = useContext(Context);
+  const allRight =
+    videoTitle != "" &&
+    videoDescription != "" &&
+    videoPrice != "" &&
+    thumbnailName != "Select" &&
+    uploadedSuccessful;
 
   useEffect(() => {
     context.setSigner(signer);
@@ -78,32 +84,6 @@ const Upload = () => {
     setLoading(false);
   };
 
-  const {
-    mutate: createAsset,
-    data: assets,
-    status,
-    progress,
-    error,
-  } = useCreateAsset(
-    video
-      ? {
-          sources: [{ name: fileName, file: video }],
-        }
-      : null
-  );
-  const progressFormatted = useMemo(
-    () =>
-      progress?.[0].phase === "failed"
-        ? "Failed to process video."
-        : progress?.[0].phase === "waiting"
-        ? "Waiting"
-        : progress?.[0].phase === "uploading"
-        ? `Uploading: ${Math.round(progress?.[0]?.progress * 100)}%`
-        : progress?.[0].phase === "processing"
-        ? `Processing: ${Math.round(progress?.[0].progress * 100)}%`
-        : null,
-    [progress]
-  );
   const handleUpload = async (e) => {
     setLoading(true);
     e.preventDefault();
@@ -117,9 +97,8 @@ const Upload = () => {
       18
     );
 
-    // createAsset?.();
     console.log(
-      "cid",
+      videoCid,
       videoTitle,
       videoDescription,
       videoPicCid,
@@ -129,7 +108,7 @@ const Upload = () => {
     );
 
     const txn = await context.contractEthers.uploadVideo(
-      "cid",
+      videoCid,
       videoTitle,
       videoDescription,
       videoPicCid,
@@ -140,7 +119,6 @@ const Upload = () => {
     await txn.wait();
     setLoading(false);
     router.push("explore");
-    // console.log(videoDuration, videoTitle, videoDescription, videoPrice);
   };
   return (
     <div>
@@ -246,40 +224,37 @@ const Upload = () => {
 
                 {/* thumbnail */}
               </div>
+
               {/* text field form */}
-              <div>
-                {
-                  <DragDropModal
-                    setVideo={setVideo}
-                    setFileName={setFileName}
-                    setVideoDuration={setVideoDuration}
-                  />
-                }
+              <div className="flex flex-col justify-center items-center">
+                <DragDropModal
+                  video={video}
+                  setVideo={setVideo}
+                  fileName={fileName}
+                  setFileName={setFileName}
+                  setVideoDuration={setVideoDuration}
+                  uploadedSuccessful={uploadedSuccessful}
+                  setUploadedSuccessful={setUploadedSuccessful}
+                  videoCid={videoCid}
+                  setVideoCid={setVideoCid}
+                />
               </div>
-              {progressFormatted && <p>{progressFormatted}</p>}
+
               {/* <div>{context.videoDuration}</div> */}
             </div>
             {/* drop modla and form  */}
             <div className="relative w-32 right-20">
-              <CyanBtn>
+              <CyanBtn invalid={!allRight}>
                 <input
-                  type="submit"
+                  type={allRight ? "submit" : "button"}
                   value="Upload"
                   className="cursor-pointer"
+                  onClick={() => {}}
                 />
               </CyanBtn>
             </div>
           </div>
         </form>
-        {assets?.map((asset) => (
-          <div key={asset.id}>
-            <div>
-              <div>Asset Name: {asset?.name} </div>
-              <div>Playback URL: {asset?.playbackUrl}</div>
-              <div>Player Back ID: {asset?.playbackId}</div>
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );

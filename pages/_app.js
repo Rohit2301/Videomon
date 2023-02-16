@@ -93,7 +93,7 @@ export default function App({ Component, pageProps }) {
   const { address } = useAccount();
 
   const currProvider = useProvider();
-  const [signer, setSigner] = useState();
+  const [signer, setSigner] = useState()
 
   useEffect(() => {
     const settingContract = async () => {
@@ -156,6 +156,8 @@ export default function App({ Component, pageProps }) {
               contractEthers,
               signer,
               setSigner,
+              allVideos,
+              setAllVideos
             }}
           >
             <Layout>

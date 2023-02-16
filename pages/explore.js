@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Context from "../context";
 import { useProvider } from "wagmi";
 import { useSigner, useContract, useAccount } from "wagmi";
+import contractConfig from "../contractConfig.json"
 
 import { assestResDum } from "@/helpers/assetRespDum";
 import Image from "next/image";
@@ -14,9 +15,15 @@ const Explore = () => {
   const context = useContext(Context);
   const provider = useProvider();
   const { data: signer, isError, isLoading } = useSigner();
+  const { address } = useAccount();
   useEffect(() => {
+    const getUploadVideoEvents = async () => {
+      const showAllVideos = await context.contractEthers.showAllVideos(address);
+      context.setAllVideos(showAllVideos);
+    };
     if (provider && signer) {
       context.initSf(provider);
+      getUploadVideoEvents();
     }
   }, [provider, signer]);
 
@@ -27,6 +34,7 @@ const Explore = () => {
         <div>Stream</div>
       </div>
       <div>{context.superTokenBalance}</div>
+      <span>{context.allVideos[0].videoId.toString()}</span>
       <div className="text-4xl font-sansationR pb-8">Explore</div>
       <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
         {/* mapping into divs */}
