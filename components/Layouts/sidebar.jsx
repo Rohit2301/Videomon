@@ -7,7 +7,7 @@ const Sidebar = () => {
   return (
     <div
       style={{ boxShadow: " 2px 4px 4px #FFFFFF" }}
-      className="fixed flex flex-col w-64 px-10 py-10 rounded-xl text-3xl mt-32 mx-14 gap-y-8 sidebarGradient"
+      className="fixed flex flex-col w-64 px-10 py-10 font-sansationR rounded-xl text-3xl mt-32 mx-14 gap-y-8 sidebarGradient"
     >
       <Link
         href={"/explore"}
@@ -17,6 +17,7 @@ const Sidebar = () => {
         onClick={() => {
           context.setActiveClass({
             explore: true,
+            upload: false,
             create: false,
             collection: false,
             myProfile: false,
@@ -35,13 +36,33 @@ const Sidebar = () => {
         onClick={() => {
           context.setActiveClass({
             explore: false,
+            upload: true,
+            create: false,
+            collection: false,
+            myProfile: false,
+          });
+        }}
+      >
+        Upload
+      </Link>
+      <Link
+        href={"/createStream"}
+        className={`cursor-pointer  ${
+          context.activeClass.create
+            ? "text-cyan font-gothamM"
+            : "hover:text-white"
+        }`}
+        onClick={() => {
+          context.setActiveClass({
+            explore: false,
+            upload: false,
             create: true,
             collection: false,
             myProfile: false,
           });
         }}
       >
-        Create
+        Stream
       </Link>
       <Link
         href={"/collection"}
@@ -53,6 +74,7 @@ const Sidebar = () => {
         onClick={() => {
           context.setActiveClass({
             explore: false,
+            upload: false,
             create: false,
             collection: true,
             myProfile: false,
@@ -71,6 +93,7 @@ const Sidebar = () => {
         onClick={() => {
           context.setActiveClass({
             explore: false,
+            upload: false,
             create: false,
             collection: false,
             myProfile: true,

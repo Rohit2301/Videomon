@@ -18,7 +18,7 @@ const livepeerClient = createReactClient({
 });
 // --------------------------------------------Livepeer--------------------------------------------------
 
-// =-------------------------------------------Connectors------------------------------------------------------
+// =-------------------------------------------Connectors-------------------------------------------------
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import { metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
 import { ArcanaConnector } from "@arcana/auth-wagmi";
@@ -82,6 +82,7 @@ export default function App({ Component, pageProps }) {
   // const { data: signer} = useSigner()
   const [activeClass, setActiveClass] = useState({
     explore: true,
+    upload: false,
     create: false,
     collection: false,
     myProfile: false,

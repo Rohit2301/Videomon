@@ -109,3 +109,96 @@ export const VideoPriceInput = ({
     </ThemeProvider>
   );
 };
+export const StreamDespInput = ({ label, setStreamDesp }) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <TextField
+        variant="standard"
+        id="upload text-form title"
+        label={label}
+        color="primary"
+        fullWidth
+        multiline
+        onChange={(e) => setStreamDesp(e.target.value)}
+        /* styles the wrapper */
+        style={{
+          width: "400px",
+          //   margin: "40px",
+        }} /* styles the label component */
+        InputLabelProps={{
+          style: {
+            fontSize: "16px",
+          },
+        }}
+        /* styles the input component */
+        inputProps={{
+          style: {
+            fontSize: "20px",
+          },
+        }}
+      />
+    </ThemeProvider>
+  );
+};
+export const StreamTitleInput = ({ label, setStreamTitle }) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <TextField
+        variant="standard"
+        id="upload text-form title"
+        label={label}
+        color="primary"
+        fullWidth
+        multiline
+        onChange={(e) => setStreamTitle(e.target.value)}
+        /* styles the wrapper */
+        style={{
+          width: "400px",
+          //   margin: "40px",
+        }} /* styles the label component */
+        InputLabelProps={{
+          style: {
+            fontSize: "16px",
+          },
+        }}
+        /* styles the input component */
+        inputProps={{
+          style: {
+            fontSize: "20px",
+          },
+        }}
+      />
+    </ThemeProvider>
+  );
+};
+export const StreamPriceInput = ({ label, setStreamPrice }) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <TextField
+        variant="standard"
+        id="upload text-form title"
+        label={label}
+        color="primary"
+        fullWidth
+        multiline
+        onChange={(e) => setStreamPrice(e.target.value)}
+        /* styles the wrapper */
+        style={{
+          width: "400px",
+          //   margin: "40px",
+        }} /* styles the label component */
+        InputLabelProps={{
+          style: {
+            fontSize: "16px",
+          },
+        }}
+        /* styles the input component */
+        inputProps={{
+          style: {
+            fontSize: "20px",
+          },
+        }}
+      />
+    </ThemeProvider>
+  );
+};
