@@ -18,21 +18,10 @@ const DragDropModal = ({ setVideo, setFileName, setVideoDuration }) => {
       reader.readAsDataURL(file);
       reader.onerror = (error) => reject(error);
     });
-  const SecondsToHms = (d) => {
-    d = Number(d);
-    var h = Math.floor(d / 3600);
-    var m = Math.floor((d % 3600) / 60);
-    var s = Math.floor((d % 3600) % 60);
 
-    var hDisplay = h > 0 ? (h < 10 ? `0${h}:` : `${h}:`) : "";
-    var mDisplay = m > 0 ? (m < 10 ? `0${m}:` : `${m}:`) : "";
-    var sDisplay = s > 0 ? (s < 10 ? `0${s}:` : `${s}`) : "";
-    return hDisplay + mDisplay + sDisplay;
-  };
   const handleVideoDuration = async (e) => {
     const duration = await getVideoDuration(e.target.files[0]);
-    const actualDurationString = SecondsToHms(duration);
-    setVideoDuration(actualDurationString);
+    setVideoDuration(duration);
   };
 
   return (

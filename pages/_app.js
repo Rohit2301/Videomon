@@ -2,6 +2,8 @@ import "@/styles/globals.css";
 import Layout from "@/components/Layouts/layout/layout";
 import { Framework } from "@superfluid-finance/sdk-core";
 import { useSigner, useContract, useProvider, useAccount } from "wagmi";
+import contractConfig from "../contractConfig.json";
+import { ethers } from "ethers";
 // --------------------------------------------Livepeer--------------------------------------------------
 import {
   LivepeerConfig,
@@ -73,10 +75,11 @@ const wagmiClient = createClient({
   connectors: connectors(chains),
   provider,
 });
-
 // =-----------------------------------------Connectors-----------------------------------------------------------
 
 export default function App({ Component, pageProps }) {
+
+  // const { data: signer} = useSigner()
   const [activeClass, setActiveClass] = useState({
     explore: true,
     create: false,
@@ -86,7 +89,31 @@ export default function App({ Component, pageProps }) {
   const [sf, setSf] = useState();
   const [superToken, setSuperToken] = useState();
   const [superTokenBalance, setSuperTokenBalance] = useState();
+  const [contractEthers, setContractEthers] = useState();
   const { address } = useAccount();
+
+  const currProvider = useProvider();
+  const [signer, setSigner] = useState()
+
+  useEffect(() => {
+    const settingContract = async () => {
+      const contractEthers = new ethers.Contract(
+        contractConfig.address,
+        contractConfig.abi,
+        signer
+      );
+      setContractEthers(contractEthers);
+    };
+    if (currProvider, signer) {
+      settingContract();
+    }
+  }, [currProvider, signer]);
+
+  const contract = useContract({
+    addressOrName: contractConfig.address,
+    contractInterface: contractConfig.abi,
+    signerOrProvider: currProvider,
+  });
 
   const initSf = async (provider) => {
     const sf = await Framework.create({
@@ -125,6 +152,10 @@ export default function App({ Component, pageProps }) {
               superTokenBalance,
               setSuperTokenBalance,
               initSf,
+              contract,
+              contractEthers,
+              signer,
+              setSigner
             }}
           >
             <Layout>

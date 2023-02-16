@@ -1,0 +1,790 @@
+{
+  "address": "0x888ca6f24e62f128BAfCF231035F825F924deBfE",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_videoId",
+          "type": "uint256"
+        }
+      ],
+      "name": "stopViewingStream",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_videoId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_endTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "stopViewingVideo",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_cId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_streamTitle",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_streamDesp",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_streamPic",
+          "type": "string"
+        },
+        {
+          "internalType": "int96",
+          "name": "_flowRate",
+          "type": "int96"
+        }
+      ],
+      "name": "streamStart",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "stateMutability": "payable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "uploader",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "int96",
+          "name": "flowRate",
+          "type": "int96"
+        }
+      ],
+      "name": "StreamStarted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "viewer",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "uploader",
+          "type": "address"
+        }
+      ],
+      "name": "StreamViewed",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_cId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_videoTitle",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_videoDesp",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_videoPic",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_price",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_duration",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int96",
+          "name": "_flowRate",
+          "type": "int96"
+        }
+      ],
+      "name": "uploadVideo",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "viewer",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "uploader",
+          "type": "address"
+        }
+      ],
+      "name": "VideoStopped",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "videoId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "cId",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "videoTitle",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "videoDesp",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "videoPic",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "isStream",
+          "type": "bool"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "uploader",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "uploadDate",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "duration",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int96",
+          "name": "flowRate",
+          "type": "int96"
+        },
+        {
+          "indexed": false,
+          "internalType": "address[]",
+          "name": "viewers",
+          "type": "address[]"
+        }
+      ],
+      "name": "VideoUploaded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "viewer",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "uploader",
+          "type": "address"
+        }
+      ],
+      "name": "VideoViewed",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_videoId",
+          "type": "uint256"
+        }
+      ],
+      "name": "viewStream",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_videoId",
+          "type": "uint256"
+        }
+      ],
+      "name": "viewVideo",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "addressToUser",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "userAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "videosUploaded",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "videosWatching",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "currVideoId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_currUser",
+          "type": "address"
+        }
+      ],
+      "name": "showAllStreams",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "videoId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "cId",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "streamTitle",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "streamDesp",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "streamPic",
+              "type": "string"
+            },
+            {
+              "internalType": "bool",
+              "name": "isStream",
+              "type": "bool"
+            },
+            {
+              "internalType": "address",
+              "name": "uploader",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "uploadDate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "int96",
+              "name": "flowRate",
+              "type": "int96"
+            },
+            {
+              "internalType": "uint256",
+              "name": "viewerCount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address[]",
+              "name": "currViewers",
+              "type": "address[]"
+            }
+          ],
+          "internalType": "struct VideoMon.Stream[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_currUser",
+          "type": "address"
+        }
+      ],
+      "name": "showAllVideos",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "videoId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "cId",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "videoTitle",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "videoDesp",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "videoPic",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "uploader",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "uploadDate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "duration",
+              "type": "uint256"
+            },
+            {
+              "internalType": "int96",
+              "name": "flowRate",
+              "type": "int96"
+            },
+            {
+              "internalType": "address[]",
+              "name": "viewers",
+              "type": "address[]"
+            }
+          ],
+          "internalType": "struct VideoMon.VideoReturn[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "showMyVideos",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "videoId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "cId",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "videoTitle",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "videoDesp",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "videoPic",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "uploader",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "uploadDate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "duration",
+              "type": "uint256"
+            },
+            {
+              "internalType": "int96",
+              "name": "flowRate",
+              "type": "int96"
+            },
+            {
+              "internalType": "address[]",
+              "name": "viewers",
+              "type": "address[]"
+            }
+          ],
+          "internalType": "struct VideoMon.VideoReturn[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "showWatchingVideos",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "videoId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "cId",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "videoTitle",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "videoDesp",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "videoPic",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "uploader",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "uploadDate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "duration",
+              "type": "uint256"
+            },
+            {
+              "internalType": "int96",
+              "name": "flowRate",
+              "type": "int96"
+            },
+            {
+              "internalType": "address[]",
+              "name": "viewers",
+              "type": "address[]"
+            }
+          ],
+          "internalType": "struct VideoMon.VideoReturn[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "videoIdToStream",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "videoId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "cId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "streamTitle",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "streamDesp",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "streamPic",
+          "type": "string"
+        },
+        {
+          "internalType": "bool",
+          "name": "isStream",
+          "type": "bool"
+        },
+        {
+          "internalType": "address",
+          "name": "uploader",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "uploadDate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int96",
+          "name": "flowRate",
+          "type": "int96"
+        },
+        {
+          "internalType": "uint256",
+          "name": "viewerCount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "videoIdToVideo",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "videoId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "cId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "videoTitle",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "videoDesp",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "videoPic",
+          "type": "string"
+        },
+        {
+          "internalType": "bool",
+          "name": "isStream",
+          "type": "bool"
+        },
+        {
+          "internalType": "address",
+          "name": "uploader",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "uploadDate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "duration",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int96",
+          "name": "flowRate",
+          "type": "int96"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}

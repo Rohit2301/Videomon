@@ -9,7 +9,16 @@ const StreamPlayer = () => {
     mutate: createStream,
     data: stream,
     status,
-  } = useCreateStream(streamName ? { name: streamName } : null);
+  } = useCreateStream(
+    streamName
+      ? {
+          name: streamName,
+          playbackPolicy: {
+            type: "public",
+          },
+        }
+      : null
+  );
   const isLoading = useMemo(() => status === "loading", [status]);
 
   return (
@@ -19,14 +28,6 @@ const StreamPlayer = () => {
         placeholder="Stream name"
         onChange={(e) => setStreamName(e.target.value)}
       />
-      {stream?.playbackId && (
-        <Player
-          title={stream?.name}
-          playbackId={stream?.playbackId}
-          autoPlay
-          muted
-        />
-      )}
       <div>
         {!stream && (
           <button
@@ -41,7 +42,17 @@ const StreamPlayer = () => {
           </button>
         )}
       </div>
+      {stream?.playbackId && (
+        <Player
+          title={stream?.name}
+          playbackId={stream?.playbackId}
+          autoPlay
+          muted
+        />
+      )}
       <div>{stream?.playbackId}</div>
+      <div>{stream?.streamKey}</div>
+      <div>{stream?.playbackUrl}</div>
     </div>
     // <LivepeerUploader/>
   );

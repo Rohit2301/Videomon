@@ -71,7 +71,11 @@ export const VideoDescriptionInput = ({ label, setVideoDescription }) => {
     </ThemeProvider>
   );
 };
-export const VideoPriceInput = ({ label, setVideoPrice }) => {
+export const VideoPriceInput = ({
+  label,
+  setVideoPrice,
+}) => {
+
   return (
     <ThemeProvider theme={theme}>
       <TextField
@@ -81,7 +85,10 @@ export const VideoPriceInput = ({ label, setVideoPrice }) => {
         color="primary"
         fullWidth
         multiline
-        onChange={(e) => setVideoPrice(e.target.value)}
+        type={"number"}
+        onChange={(e) => {
+          setVideoPrice(e.target.value);
+        }}
         /* styles the wrapper */
         style={{
           width: "400px",

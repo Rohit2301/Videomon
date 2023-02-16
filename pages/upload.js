@@ -1,9 +1,13 @@
 import DragDropModal from "@/components/uploadPage/dragDropModal";
 import { CyanBtn } from "@/helpers/utils/buttons";
-import { useState } from "react";
-import Context from "../context.js";
+import { useState, useEffect } from "react";
+import Context from "../context";
 import { useContext } from "react";
+import { useSigner } from "wagmi";
+import { BigNumber, ethers } from "ethers";
 import { create as ipfsHttpClient } from "ipfs-http-client";
+import { NFTStorage, File, Blob } from "nft.storage";
+import IPFS from "ipfs-http-client";
 import {
   VideoTitleInput,
   VideoDescriptionInput,
@@ -11,48 +15,66 @@ import {
 } from "@/components/uploadPage/textField";
 import { useCreateAsset } from "@livepeer/react";
 import { useMemo } from "react";
-
-const projectId = process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_ID;
-const projectSecret = process.env.NEXT_PUBLIC_INFURA_IPFS_API_SECRET_KEY;
-const authorization =
-  "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
+import { useRouter } from "next/router.js";
 
 const Upload = () => {
-  const [uploadedImages, setUploadedImages] = useState();
+  const router = useRouter();
+  const { data: signer } = useSigner();
   const [fileName, setFileName] = useState("");
   const [video, setVideo] = useState();
+  const [imageSrc, setImageSrc] = useState(null);
   //
-  const [videoFile, setVideoFile] = useState();
-  const [thumbnail, setThumbnail] = useState();
+  const [videoPicCid, setVideoPicCid] = useState();
   const [thumbnailName, setThumbnailName] = useState("Select");
   const [videoDuration, setVideoDuration] = useState();
   const [videoTitle, setVideoTitle] = useState();
   const [videoDescription, setVideoDescription] = useState();
   const [videoPrice, setVideoPrice] = useState();
   //
-  const ipfs = ipfsHttpClient({
-    url: "https://ipfs.infura.io:5001/api/v0",
-    headers: {
-      authorization,
-    },
-  });
-  const thumbnailUploader = async (file) => {
-    // const form = event.target;
-    // const files = context.thumbnail;
 
-    // if (!files || files.length === 0) {
-    //   return alert("No files selected");
-    // }
+  const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_NFT_STORAGE_API_KEY;
+  const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
 
-    // const file = context.thumbnail;
-    console.log(file);
-    // upload files
-    const result = await ipfs.add(file);
-    setUploadedImages({
-      cid: result.cid,
-      path: result.path,
+  const context = useContext(Context);
+
+  useEffect(() => {
+    context.setSigner(signer);
+  }, [signer]);
+
+  function fileToBlob(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(file);
+
+      reader.onload = () => {
+        const blob = new Blob([reader.result], { type: file.type });
+        resolve(blob);
+      };
+      reader.onerror = () => {
+        reject(new Error("Error converting file to blob"));
+      };
     });
+  }
+
+  const thumbnailUploader = async (e) => {
+    const thumbnailName = e.target.files[0].name;
+    setThumbnailName(thumbnailName);
+    const thumbnail = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setImageSrc(event.target.result);
+    };
+    reader.readAsDataURL(thumbnail);
+    console.log(thumbnail);
+    const imageFile = new File([thumbnail], thumbnailName, {
+      type: thumbnail.type,
+    });
+    const blobFile = await fileToBlob(imageFile);
+    const cid = await client.storeBlob(blobFile);
+    console.log(cid);
+    setVideoPicCid(cid);
   };
+
   const {
     mutate: createAsset,
     data: assets,
@@ -81,13 +103,39 @@ const Upload = () => {
   );
   const handleUpload = async (e) => {
     e.preventDefault();
-    const result = await ipfs.add(thumbnail);
-    setUploadedImages({
-      cid: result.cid,
-      path: result.path,
-    });
-    createAsset?.();
-    console.log(videoDuration, videoTitle, videoDescription, videoPrice);
+    const videoDurationBig = ethers.utils.parseUnits(
+      videoDuration.toString(),
+      18
+    );
+    const videoPriceBig = ethers.utils.parseUnits(videoPrice.toString(), 18);
+    const flowRateBig = ethers.utils.parseUnits(
+      (videoPrice / videoDuration).toString(),
+      18
+    );
+
+    // createAsset?.();
+    console.log(
+      "cid",
+      videoTitle,
+      videoDescription,
+      videoPicCid,
+      videoPriceBig,
+      videoDurationBig,
+      flowRateBig
+    );
+
+    const txn = await context.contractEthers.uploadVideo(
+      "cid",
+      videoTitle,
+      videoDescription,
+      videoPicCid,
+      videoPriceBig,
+      videoDurationBig,
+      flowRateBig
+    );
+    await txn.wait();
+    router.push("explore");
+    // console.log(videoDuration, videoTitle, videoDescription, videoPrice);
   };
   return (
     <div>
@@ -97,7 +145,12 @@ const Upload = () => {
         }}
       >
         <div className="flex flex-col items-center justify-center py-16 px-20 gap-y-10 ">
-          <div className="self-start text-2xl font-sansationR text-white">
+          <div
+            className="self-start text-2xl font-sansationR text-white"
+            onClick={() => {
+              console.log(context.signer);
+            }}
+          >
             Enter the details of your video
           </div>
           {/* drop modla and form  */}
@@ -130,17 +183,20 @@ const Upload = () => {
                 <div className="relative font-sansationR text-xl">
                   Thumbnail
                 </div>
-                {ipfs ? (
+                {client ? (
                   <div className="w-30">
-                    <CyanBtn data={thumbnailName}>
+                    <CyanBtn
+                      data={thumbnailName}
+                      size="text-lg"
+                      // overflow={thumbnailName.length > 8}
+                    >
                       <input
                         id="thumbnail"
                         name="thumbnail"
                         type="file"
                         className="absolute inset-0 opacity-0 w-full h-full"
                         onChange={(e) => {
-                          setThumbnailName(e.target.files[0].name);
-                          setThumbnail(e.target.files[0]);
+                          thumbnailUploader(e);
                         }}
                       ></input>
                     </CyanBtn>
@@ -148,42 +204,27 @@ const Upload = () => {
                 ) : (
                   "Please connect ipfs first"
                 )}
+                <div>
+                  {
+                    imageSrc ? (
+                      <>
+                        <img
+                          className="image"
+                          alt={`Uploaded `}
+                          src={imageSrc}
+                          style={{ maxWidth: "80px", margin: "0px" }}
+                          // key={uploadedImages.cid.toString()}
+                        />
+                      </>
+                    ) : (
+                      <></>
+                    )
+                    // ))
+                  }
+                </div>
               </div>
               {/*  */}
-              <div>
-                {
-                  // uploadedImages?.map((image, index) => (
-                  uploadedImages ? (
-                    <>
-                      <img
-                        className="image"
-                        alt={`Uploaded `}
-                        src={
-                          "https://skywalker.infura-ipfs.io/ipfs/" +
-                          uploadedImages.path
-                        }
-                        style={{ maxWidth: "400px", margin: "15px" }}
-                        // key={uploadedImages.cid.toString()}
-                      />
-                      <h4>Link to IPFS:</h4>
-                      <a
-                        href={
-                          "https://skywalker.infura-ipfs.io/ipfs/" +
-                          uploadedImages.path
-                        }
-                      >
-                        <h3>
-                          {"https://skywalker.infura-ipfs.io/ipfs/" +
-                            uploadedImages.path}
-                        </h3>
-                      </a>
-                    </>
-                  ) : (
-                    <></>
-                  )
-                  // ))
-                }
-              </div>
+
               {/* thumbnail */}
             </div>
             {/* text field form */}

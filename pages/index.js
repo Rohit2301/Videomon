@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useRouter } from "next/router";
 import UploadToIPFS from "../helpers/uploadFile/uploadIPFS.jsx";
+import StreamPlayer from "./StreamPlayer";
 
 const Home = () => {
   const router = useRouter();
@@ -34,6 +35,7 @@ const Home = () => {
         >
           Video Player
         </button> */}
+        <StreamPlayer></StreamPlayer>
       </main>
     </>
   );

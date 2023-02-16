@@ -2,27 +2,30 @@ import React, { useState, useEffect, useContext } from "react";
 import Context from "../context";
 import { useProvider } from "wagmi";
 import { useSigner, useContract, useAccount } from "wagmi";
+
 import { assestResDum } from "@/helpers/assetRespDum";
 import Image from "next/image";
 import tanjiro from "../public/images/tanjiro.webp";
 import UploadModal from "@/components/uploadModal";
 
+import LivepeerUploader from "@/helpers/uploadFile/uploader";
+
 const Explore = () => {
-  // const context = useContext(Context);
-  // const provider = useProvider();
-  // const { data: signer, isError, isLoading } = useSigner();
-  // useEffect(() => {
-  //   if (provider && signer) {
-  //     context.initSf(provider);
-  //   }
-  // }, [provider, signer]);
+  const context = useContext(Context);
+  const provider = useProvider();
+  const { data: signer, isError, isLoading } = useSigner();
+  useEffect(() => {
+    if (provider && signer) {
+      context.initSf(provider);
+    }
+  }, [provider, signer]);
 
   return (
     <div className="pt-14 pb-10">
-      <div>
+      <div className="w-full">
         <UploadModal />
       </div>
-      {/* <div>{context.superTokenBalance}</div> */}
+      <div>{context.superTokenBalance}</div>
       <div className="text-4xl font-sansationR pb-8">Explore</div>
       <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
         {/* mapping into divs */}
