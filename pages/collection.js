@@ -2,8 +2,24 @@ import { assestResDum } from "@/helpers/assetRespDum";
 import rrr from "../public/images/rrr.png";
 import tanjiro from "../public/images/tanjiro.webp";
 import Image from "next/image";
+import { useEffect } from "react";
+import Context from "../context";
+import { useContext } from "react";
+import { useRouter } from "next/router";
 
 const Collection = () => {
+  const router = useRouter();
+  const context = useContext(Context);
+  useEffect(() => {
+    context.setActiveClass({
+      explore: false,
+      upload: false,
+      create: false,
+      collection: true,
+      myProfile: false,
+    });
+  }, []);
+
   return (
     <div className="pt-14 pb-10">
       <div className="text-4xl font-sansationR pb-8">My Collection</div>
@@ -27,6 +43,9 @@ const Collection = () => {
                   alt={"rrr image"}
                   style={{
                     borderRadius: "2rem 2rem 1rem 1rem ",
+                  }}
+                  onClick={() => {
+                    router.push("/VideoPlayer");
                   }}
                 />
               </div>

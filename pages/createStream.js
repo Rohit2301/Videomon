@@ -46,6 +46,13 @@ const CreateStream = () => {
 
   useEffect(() => {
     context.setSigner(signer);
+    context.setActiveClass({
+      explore: false,
+      upload: false,
+      create: true,
+      collection: false,
+      myProfile: false,
+    });
   }, [signer]);
 
   function fileToBlob(file) {

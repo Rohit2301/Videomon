@@ -1,14 +1,23 @@
 import Head from "next/head";
-import LivepeerUploader from "@/helpers/uploadFile/uploader";
 import React, { useState } from "react";
-
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useRouter } from "next/router";
-import UploadToIPFS from "../helpers/uploadFile/uploadIPFS.jsx";
-import StreamPlayer from "./StreamPlayer";
+import { CyanBtn } from "@/helpers/utils/buttons.jsx";
+import { useEffect } from "react";
+import Context from "../context";
+import { useContext } from "react";
 
 const Home = () => {
   const router = useRouter();
+  const context = useContext(Context);
+  useEffect(() => {
+    context.setActiveClass({
+      explore: false,
+      upload: false,
+      create: false,
+      collection: false,
+      myProfile: false,
+    });
+  }, []);
 
   return (
     <>
@@ -19,23 +28,10 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        {/* <LivepeerUploader /> */}
-        <UploadToIPFS />
-        {/* <button
-          className="bg-red-500"
-          onClick={() => {
-            router.push({
-              pathname: "VideoPlayer",
-              query: {
-                videoLink:
-                  "https://lp-playback.com/hls/193brz5km4uw974f/index.m3u8",
-              },
-            });
-          }}
-        >
-          Video Player
-        </button> */}
-        <StreamPlayer></StreamPlayer>
+        <div></div>
+        <div className="">
+          <CyanBtn data={"Get Started"} />
+        </div>
       </main>
     </>
   );

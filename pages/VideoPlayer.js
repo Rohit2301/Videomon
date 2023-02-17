@@ -8,7 +8,7 @@ import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { useSigner, useContract, useProvider, useAccount } from "wagmi";
 import { Framework } from "@superfluid-finance/sdk-core";
 import Context from "../context";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 const VideoPlayer = ({ videoLink, startTime = 0 }) => {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -25,7 +25,7 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
   const [superTokenMatic, setSuperTokenMatic] = useState();
   const [flowInfo, setFlowInfo] = useState();
   const router = useRouter();
-  const context = useContext(Context)
+  const context = useContext(Context);
 
   useEffect(() => {
     playerRef.current.currentTime = startTime;
@@ -36,8 +36,8 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
       setCurrentTime(playerRef.current.currentTime);
     };
     playerRef.current.addEventListener("timeupdate", handleTimeUpdate);
-    if(playerRef.current.currentTime===playerRef.current.duration){
-        handleStop();
+    if (playerRef.current.currentTime === playerRef.current.duration) {
+      handleStop();
     }
     return () => {
       playerRef.current.removeEventListener("timeupdate", handleTimeUpdate);
@@ -46,8 +46,8 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
 
   useEffect(() => {
     if (provider && signer) {
-        context.initSf(provider);
-      }
+      context.initSf(provider);
+    }
   }, [provider, signer, context.superToken]);
 
   const handleTimeUpdate = () => {
@@ -88,13 +88,12 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
     playerRef.current.pause();
     setIsPlaying(false);
     let flowOp = context.superToken.deleteFlow({
-        sender: "0x4562F39FAEEdB490B3Bf0D6024F46DBD5c40cF04",
-        receiver: "0xF2B7CfDb834Bf075144ca9E309Ff0AE0B7860AC8",
-      });
+      sender: "0x4562F39FAEEdB490B3Bf0D6024F46DBD5c40cF04",
+      receiver: "0xF2B7CfDb834Bf075144ca9E309Ff0AE0B7860AC8",
+    });
     const txn = await flowOp.exec(signer);
     await txn.wait();
     console.log(playerRef.current.currentTime);
-    
   };
 
   const handleSeek = (e) => {
@@ -124,7 +123,7 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
   };
 
   return (
-    <div className="h-screen w-screen p-4 flex flex-row justify-center items-center">
+    <div className="absolute inset-0 h-screen w-screen flex flex-row justify-center items-center">
       <div>
         <div className="h-screen w-screen flex flex-col justify-center items-center">
           <ReactHlsPlayer

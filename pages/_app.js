@@ -4,6 +4,7 @@ import { Framework } from "@superfluid-finance/sdk-core";
 import { useSigner, useContract, useProvider, useAccount } from "wagmi";
 import contractConfig from "../contractConfig.json";
 import { ethers } from "ethers";
+import { useLocation } from "react-router-dom";
 // --------------------------------------------Livepeer--------------------------------------------------
 import {
   LivepeerConfig,
@@ -78,7 +79,6 @@ const wagmiClient = createClient({
 // =-----------------------------------------Connectors-----------------------------------------------------------
 
 export default function App({ Component, pageProps }) {
-  // const { data: signer} = useSigner()
   const [activeClass, setActiveClass] = useState({
     explore: true,
     upload: false,
@@ -95,7 +95,7 @@ export default function App({ Component, pageProps }) {
   const currProvider = useProvider();
   const [signer, setSigner] = useState();
 
-  const [allVideos, setAllVideos] = useState([])
+  const [allVideos, setAllVideos] = useState([]);
 
   useEffect(() => {
     const settingContract = async () => {
@@ -123,13 +123,13 @@ export default function App({ Component, pageProps }) {
       provider,
     });
     setSf(sf);
-    console.log(sf);
-    console.log(provider.network.chainId);
+    // console.log(sf);
+    // console.log(provider.network.chainId);
     if (provider.network.chainId == "80001") {
       const maticX = await sf.loadSuperToken(
         "0x96B82B65ACF7072eFEb00502F45757F254c2a0D4"
       );
-      console.log(maticX);
+      // console.log(maticX);
       setSuperToken(maticX);
       const maticXBalance = await maticX.balanceOf({
         account: address,
@@ -159,7 +159,7 @@ export default function App({ Component, pageProps }) {
               signer,
               setSigner,
               allVideos,
-              setAllVideos
+              setAllVideos,
             }}
           >
             <Layout>

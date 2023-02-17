@@ -2,13 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import Context from "../context";
 import { useProvider } from "wagmi";
 import { useSigner, useContract, useAccount } from "wagmi";
-import contractConfig from "../contractConfig.json"
-
+import contractConfig from "../contractConfig.json";
 import { assestResDum } from "@/helpers/assetRespDum";
 import Image from "next/image";
 import tanjiro from "../public/images/tanjiro.webp";
 import UploadModal from "@/components/uploadModal";
-
 import LivepeerUploader from "@/helpers/uploadFile/uploader";
 
 const Explore = () => {
@@ -58,6 +56,7 @@ const Explore = () => {
                   style={{
                     borderRadius: "2rem 2rem 1rem 1rem ",
                   }}
+                  onClick={() => {}}
                 />
               </div>
               <div className="text-grey">{videoDesp}</div>

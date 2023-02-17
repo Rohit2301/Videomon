@@ -2,8 +2,24 @@ import { assestResDum } from "@/helpers/assetRespDum";
 import rrr from "../public/images/rrr.png";
 import tanjiro from "../public/images/tanjiro.webp";
 import Image from "next/image";
+import { useEffect } from "react";
+import Context from "../context";
+import { useContext } from "react";
+import { useRouter } from "next/router";
 
 const Profile = () => {
+  const context = useContext(Context);
+  const router = useRouter();
+
+  useEffect(() => {
+    context.setActiveClass({
+      explore: false,
+      upload: false,
+      create: false,
+      collection: false,
+      myProfile: true,
+    });
+  }, []);
   return (
     <div className="">
       <div className="font-sansationR text-4xl pt-12 pb-8">Anonymus User</div>
@@ -27,6 +43,9 @@ const Profile = () => {
                   alt={"rrr image"}
                   style={{
                     borderRadius: "2rem 2rem 1rem 1rem ",
+                  }}
+                  onClick={() => {
+                    router.push("/VideoPlayer");
                   }}
                 />
               </div>

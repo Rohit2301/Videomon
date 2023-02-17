@@ -22,7 +22,6 @@ const Upload = () => {
   const [fileName, setFileName] = useState("");
   const [video, setVideo] = useState();
   const [imageSrc, setImageSrc] = useState(null);
-  //
   const [videoPicCid, setVideoPicCid] = useState();
   const [thumbnailName, setThumbnailName] = useState("Select");
   const [videoDuration, setVideoDuration] = useState();
@@ -30,7 +29,6 @@ const Upload = () => {
   const [videoDescription, setVideoDescription] = useState();
   const [videoPrice, setVideoPrice] = useState();
   const [loading, setLoading] = useState(false);
-  //
   const [uploadedSuccessful, setUploadedSuccessful] = useState(false);
   const [videoCid, setVideoCid] = useState();
 
@@ -47,6 +45,13 @@ const Upload = () => {
 
   useEffect(() => {
     context.setSigner(signer);
+    context.setActiveClass({
+      explore: false,
+      upload: true,
+      create: false,
+      collection: false,
+      myProfile: false,
+    });
   }, [signer]);
 
   function fileToBlob(file) {
@@ -226,7 +231,7 @@ const Upload = () => {
               </div>
 
               {/* text field form */}
-              <div className="flex flex-col justify-center items-center">
+              <div className="flex flex-col justify-center items-center relative top-[-3rem]">
                 <DragDropModal
                   video={video}
                   setVideo={setVideo}
@@ -243,7 +248,7 @@ const Upload = () => {
               {/* <div>{context.videoDuration}</div> */}
             </div>
             {/* drop modla and form  */}
-            <div className="relative w-32 right-20">
+            <div className="relative w-32 right-20 top-[-2rem]">
               <CyanBtn invalid={!allRight}>
                 <input
                   type={allRight ? "submit" : "button"}
