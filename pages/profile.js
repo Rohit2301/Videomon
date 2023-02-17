@@ -9,14 +9,10 @@ import Image from "next/image";
 import Context from "../context";
 import { useSigner, useContract, useAccount } from "wagmi";
 import { getEllipsisTxt } from "@/helpers/formatters";
-import { useEffect } from "react";
-import Context from "../context";
-import { useContext } from "react";
 import { useRouter } from "next/router";
 
 const Profile = () => {
   const { address } = useAccount();
-  const context = useContext(Context);
   const { data: signer, isError, isLoading } = useSigner();
   const provider = useProvider();
 
