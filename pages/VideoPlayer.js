@@ -123,13 +123,13 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
   };
 
   return (
-    <div className="absolute inset-0 h-screen w-screen flex flex-row justify-center items-center">
+    <div className="reltaive flex flex-row justify-center items-center p-10">
       <div>
-        <div className="h-screen w-screen flex flex-col justify-center items-center">
+        <div className="relative flex flex-col justify-center items-center w-[62rem] right-40">
           <ReactHlsPlayer
             playerRef={playerRef}
             src="https://lp-playback.com/hls/193brz5km4uw974f/index.m3u8"
-            width="60%"
+            width="100%"
             onTimeUpdate={handleTimeUpdate}
             autoPlay
           />
@@ -140,14 +140,14 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
               max={playerRef.current ? playerRef.current.duration : 0}
               value={currentTime}
               onChange={handleSeek}
-              className="w-[60%]"
+              className="w-[100%]"
             />
 
-            <div className="flex flex-row w-[60%] justify-between items-center">
+            <div className="flex flex-row w-[100%] justify-between items-center">
               <span>{currentTimeDisplay}</span>
               <span>{totalDurationDisplay}</span>
             </div>
-            <div className="flex flex-row w-[60%] justify-between items-center">
+            <div className="flex flex-row w-[100%] justify-between items-center">
               <div>
                 {isPlaying ? (
                   <PauseIcon onClick={handlePlayPause}></PauseIcon>

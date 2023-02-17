@@ -19,7 +19,8 @@ const Header = () => {
     <div
       className={`${
         URL === "http://localhost:3000/streamPlayer" ||
-        URL === "http://localhost:3000/VideoPlayer"
+        URL === "http://localhost:3000/VideoPlayer" ||
+        URL === "http://localhost:3000/profilePlayer"
           ? "hidden"
           : ""
       }`}

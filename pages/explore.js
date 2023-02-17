@@ -27,7 +27,7 @@ const Explore = () => {
         signer
       );
       context.setContractEthers(contractEthers);
-      console.log(contractEthers)
+      console.log(contractEthers);
 
       // const filter = contractEthers.filters.VideoUploaded();
       // console.log(filter)
@@ -42,14 +42,13 @@ const Explore = () => {
 
       const allVideos = await contractEthers.showAllVideos(address);
       context.setAllVideos(allVideos);
-      console.log(allVideos)
+      console.log(allVideos);
     };
 
-    if(provider && signer){
+    if (provider && signer) {
       getUploadVideoEvents();
     }
   }, [provider, signer]);
-
 
   return (
     <div className="pt-14 pb-10">
@@ -84,9 +83,11 @@ const Explore = () => {
               <div className="text-grey">{video.videoDesp}</div>
               <div className="flex justify-between text-white text-lg font-sansationB">
                 <div>{video.videoTitle}</div>
-                <div>{(video.duration/10**18).toString()}</div>
+                <div>{(video.duration / 10 ** 18).toString()}</div>
               </div>
-              <div className="text-grey text-sm">{video.uploadDate.toString()}</div>
+              <div className="text-grey text-sm">
+                {video.uploadDate.toString()}
+              </div>
             </div>
           );
         })}
