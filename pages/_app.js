@@ -96,6 +96,7 @@ export default function App({ Component, pageProps }) {
   const [signer, setSigner] = useState();
 
   const [allVideos, setAllVideos] = useState([]);
+  const [uploadedVideos, setUploadedVideos] = useState([])
 
   useEffect(() => {
     const settingContract = async () => {
@@ -156,10 +157,13 @@ export default function App({ Component, pageProps }) {
               initSf,
               contract,
               contractEthers,
+              setContractEthers,
               signer,
               setSigner,
               allVideos,
               setAllVideos,
+              uploadedVideos,
+              setUploadedVideos
             }}
           >
             <Layout>

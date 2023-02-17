@@ -1,13 +1,42 @@
 import { assestResDum } from "@/helpers/assetRespDum";
 import rrr from "../public/images/rrr.png";
+import React, { useState, useEffect, useContext } from "react";
+import contractConfig from "../contractConfig.json"
+import { useProvider } from "wagmi";
+import { ethers } from "ethers";
 import tanjiro from "../public/images/tanjiro.webp";
 import Image from "next/image";
+import Context from "../context";
+import { useSigner, useContract, useAccount } from "wagmi";
+import { getEllipsisTxt } from "@/helpers/formatters";
 import { useEffect } from "react";
 import Context from "../context";
 import { useContext } from "react";
 import { useRouter } from "next/router";
 
 const Profile = () => {
+  const { address } = useAccount();
+  const context = useContext(Context);
+  const { data: signer, isError, isLoading } = useSigner();
+  const provider = useProvider();
+
+  useEffect(() => {
+    const getUploadedVideos = async () => {
+      const contractEthers = new ethers.Contract(
+        contractConfig.address,
+        contractConfig.abi,
+        signer
+      );
+      context.setContractEthers(contractEthers);
+      console.log(context.contractEthers)
+      const uploadedVideos = await contractEthers.showMyVideos(address);
+      context.setUploadedVideos(uploadedVideos);
+    };
+    if(provider && signer){
+      getUploadedVideos()
+    }
+  }, [provider, signer]);
+
   const context = useContext(Context);
   const router = useRouter();
 
@@ -22,19 +51,9 @@ const Profile = () => {
   }, []);
   return (
     <div className="">
-      <div className="font-sansationR text-4xl pt-12 pb-8">Anonymus User</div>
+      <div className="font-sansationR text-4xl pt-12 pb-8">{getEllipsisTxt(address, 6)}</div>
       <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
-        {assestResDum.map((asset, index) => {
-          const {
-            videoId,
-            cId,
-            videoTitle,
-            videoDesp,
-            uploadDate,
-            price,
-            duration,
-            flowRate,
-          } = asset;
+      {context.uploadedVideos?.map((video, index) => {
           return (
             <div key={index} className="font-sansationR">
               <div className="w-80 cursor-pointer">
@@ -49,12 +68,12 @@ const Profile = () => {
                   }}
                 />
               </div>
-              <div className="text-grey">{videoDesp}</div>
+              <div className="text-grey">{video.videoDesp}</div>
               <div className="flex justify-between text-white text-lg font-sansationB">
-                <div>{videoTitle}</div>
-                <div>{duration}</div>
+                <div>{video.videoTitle}</div>
+                <div>{(video.duration/10**18).toString()}</div>
               </div>
-              <div className="text-grey text-sm">{uploadDate}</div>
+              <div className="text-grey text-sm">{video.uploadDate.toString()}</div>
             </div>
           );
         })}
