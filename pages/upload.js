@@ -96,9 +96,10 @@ const Upload = () => {
       videoDuration.toString(),
       18
     );
+    const videoDurationInt = parseFloat(videoDuration.toFixed(2));
     const videoPriceBig = ethers.utils.parseUnits(videoPrice.toString(), 18);
     const flowRateBig = ethers.utils.parseUnits(
-      (videoPrice / videoDuration).toString(),
+      (videoPrice / videoDurationInt).toFixed(18),
       18
     );
 
@@ -123,23 +124,23 @@ const Upload = () => {
     );
     await txn.wait();
     setLoading(false);
-    router.push("explore");
+    router.push("profile");
   };
   return (
     <div>
-      <div
-        className={`${
-          loading
-            ? "z-10 absolute  w-[70rem] h-[34rem] flex justify-center items-center"
-            : "w-0 h-0"
-        }`}
-      >
-        {loading ? (
-          <PropagateLoader color={"#76DDDD"} loading={loading} size={16} />
-        ) : (
-          <></>
-        )}
-      </div>
+        <div
+          className={`${
+            loading
+              ? "z-10 absolute  w-[70rem] h-[34rem] flex justify-center items-center"
+              : "w-0 h-0"
+          }`}
+        >
+          {loading ? (
+            <PropagateLoader color={"#76DDDD"} loading={loading} size={16} />
+          ) : (
+            <></>
+          )}
+        </div>
       <div className={`z-0 ${loading ? "opacity-30" : ""}`}>
         <form
           onSubmit={(e) => {
@@ -190,7 +191,7 @@ const Upload = () => {
                       <CyanBtn
                         data={thumbnailName}
                         size="text-lg"
-                        // overflow={thumbnailName.length > 8}
+                        overflow={thumbnailName.length > 8}
                       >
                         <input
                           id="thumbnail"
@@ -233,6 +234,7 @@ const Upload = () => {
               {/* text field form */}
               <div className="flex flex-col justify-center items-center relative top-[-3rem]">
                 <DragDropModal
+                  setLoading={setLoading}
                   video={video}
                   setVideo={setVideo}
                   fileName={fileName}

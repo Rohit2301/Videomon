@@ -1,5 +1,5 @@
 {
-  "address": "0x104Dc3494c68750bc4d8432218692A1402B375Fc",
+  "address": "0x4ff075ae5ff4D0923e76E06dac33e35626D0eBd9",
   "abi": [
     {
       "inputs": [],
@@ -259,6 +259,11 @@
               "type": "bool"
             },
             {
+              "internalType": "bool",
+              "name": "isLive",
+              "type": "bool"
+            },
+            {
               "internalType": "address",
               "name": "uploader",
               "type": "address"
@@ -277,11 +282,6 @@
               "internalType": "uint256",
               "name": "viewerCount",
               "type": "uint256"
-            },
-            {
-              "internalType": "address[]",
-              "name": "currViewers",
-              "type": "address[]"
             }
           ],
           "internalType": "struct VideoMon.Stream[]",
@@ -528,6 +528,19 @@
           "type": "uint256"
         }
       ],
+      "name": "stopStream",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_videoId",
+          "type": "uint256"
+        }
+      ],
       "name": "stopViewingStream",
       "outputs": [],
       "stateMutability": "nonpayable",
@@ -630,6 +643,30 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "videoIdToLastTimestamp",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
@@ -665,6 +702,11 @@
         {
           "internalType": "bool",
           "name": "isStream",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "isLive",
           "type": "bool"
         },
         {

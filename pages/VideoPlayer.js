@@ -9,11 +9,12 @@ import { useSigner, useContract, useProvider, useAccount } from "wagmi";
 import { Framework } from "@superfluid-finance/sdk-core";
 import Context from "../context";
 import { useRouter } from "next/router";
+import { ethers } from "ethers";
 
-const VideoPlayer = ({ videoLink, startTime = 0 }) => {
+const VideoPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMute, setIsMute] = useState(false);
-  const [currentTime, setCurrentTime] = useState(startTime);
+
   const playerRef = React.useRef(null);
   const [volume, setVolume] = useState(1);
   const [currentTimeDisplay, setCurrentTimeDisplay] = useState("0:00");
@@ -25,10 +26,40 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
   const [superTokenMatic, setSuperTokenMatic] = useState();
   const [flowInfo, setFlowInfo] = useState();
   const router = useRouter();
+  const [video, setVideo] = useState({});
+  const {
+    videoId,
+    cId,
+    videoTitle,
+    videoDesp,
+    videoPic,
+    uploader,
+    uploadDate,
+    price,
+    duration,
+    flowRate,
+    viewers,
+    sender,
+    startTime,
+  } = router.query;
+  const [currentTime, setCurrentTime] = useState(startTime);
   const context = useContext(Context);
 
   useEffect(() => {
     playerRef.current.currentTime = startTime;
+    setVideo({
+      videoId,
+      cId,
+      videoTitle,
+      videoDesp,
+      videoPic,
+      uploader,
+      uploadDate,
+      price,
+      duration,
+      flowRate,
+      viewers,
+    });
   }, [startTime]);
 
   useEffect(() => {
@@ -39,20 +70,21 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
     if (playerRef.current.currentTime === playerRef.current.duration) {
       handleStop();
     }
-    return () => {
-      playerRef.current.removeEventListener("timeupdate", handleTimeUpdate);
-    };
+    // return () => {
+    //   playerRef.current.removeEventListener("timeupdate", handleTimeUpdate);
+    // };
   }, []);
 
-  useEffect(() => {
-    if (provider && signer) {
-      context.initSf(provider);
-    }
-  }, [provider, signer, context.superToken]);
+  // useEffect(() => {
+  //   if (provider && signer) {
+  //     context.initSf(provider);
+  //   }
+  // }, [provider, signer]);
 
   const handleTimeUpdate = () => {
     const { currentTime, duration } = playerRef.current;
     setCurrentTimeDisplay(formatTime(currentTime));
+    console.log(formatTime(currentTime), formatTime(duration));
     setTotalDurationDisplay(formatTime(duration));
   };
 
@@ -67,15 +99,15 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
       playerRef.current.pause();
       setIsPlaying(!isPlaying);
       let flowOp = context.superToken.deleteFlow({
-        sender: "0x4562F39FAEEdB490B3Bf0D6024F46DBD5c40cF04",
-        receiver: "0xF2B7CfDb834Bf075144ca9E309Ff0AE0B7860AC8",
+        sender: sender,
+        receiver: video.uploader,
       });
       await flowOp.exec(signer);
     } else {
       let flowOp = context.superToken.createFlow({
-        sender: "0x4562F39FAEEdB490B3Bf0D6024F46DBD5c40cF04",
-        receiver: "0xF2B7CfDb834Bf075144ca9E309Ff0AE0B7860AC8",
-        flowRate: "1000000000000",
+        sender: sender,
+        receiver: video.uploader,
+        flowRate: parseInt(video.flowRate).toString(),
       });
       const txn = await flowOp.exec(signer);
       await txn.wait();
@@ -87,13 +119,19 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
   const handleStop = async () => {
     playerRef.current.pause();
     setIsPlaying(false);
+    const endTime = ethers.utils.parseUnits(playerRef.current.currentTime.toString(), 18);
+    const txn1 = await context.contractEthers.stopViewingVideo(
+      video.videoId,
+      endTime
+    );
+    await txn1.wait();
     let flowOp = context.superToken.deleteFlow({
-      sender: "0x4562F39FAEEdB490B3Bf0D6024F46DBD5c40cF04",
-      receiver: "0xF2B7CfDb834Bf075144ca9E309Ff0AE0B7860AC8",
+      sender: sender,
+      receiver: video.uploader,
     });
-    const txn = await flowOp.exec(signer);
-    await txn.wait();
-    console.log(playerRef.current.currentTime);
+    const txn2 = await flowOp.exec(signer);
+    await txn2.wait();
+    router.push("/explore");
   };
 
   const handleSeek = (e) => {
@@ -128,7 +166,7 @@ const VideoPlayer = ({ videoLink, startTime = 0 }) => {
         <div className="relative flex flex-col justify-center items-center w-[62rem] right-40">
           <ReactHlsPlayer
             playerRef={playerRef}
-            src="https://lp-playback.com/hls/193brz5km4uw974f/index.m3u8"
+            src={`https://lp-playback.com/hls/${video.cId}/index.m3u8`}
             width="100%"
             onTimeUpdate={handleTimeUpdate}
             autoPlay

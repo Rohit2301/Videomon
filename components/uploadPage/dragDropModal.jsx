@@ -7,6 +7,7 @@ import { useCreateAsset } from "@livepeer/react";
 import { useMemo } from "react";
 
 const DragDropModal = ({
+  setLoading,
   video,
   setVideo,
   fileName,
@@ -32,6 +33,9 @@ const DragDropModal = ({
   );
 
   useEffect(() => {
+    if (progress?.[0].phase === "uploading") {
+      setLoading(true);
+    }
     if (
       progress?.[0].phase === "ready" &&
       Math.round(progress?.[0].progress * 100) == 100
@@ -39,6 +43,7 @@ const DragDropModal = ({
       console.log(assets[0].playbackId);
       setUploadedSuccessful(true);
       setVideoCid(assets[0].playbackId);
+      setLoading(false)
     }
   }, [progress]);
 
@@ -124,7 +129,6 @@ const DragDropModal = ({
           }}
         ></input>
       </CyanBtn>
-      {videoCid ? <p>{videoCid}</p> : <></>}
     </div>
   );
 };

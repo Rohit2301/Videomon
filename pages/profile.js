@@ -52,31 +52,43 @@ const Profile = () => {
         {getEllipsisTxt(address, 6)}
       </div>
       <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
-        {/* {context.uploadedVideos?.map((video, index) => {
+        {context.uploadedVideos?.map((video, index) => {
           return (
             <div key={index} className="font-sansationR">
               <div className="w-80 cursor-pointer">
-                <Image
-                  src={tanjiro}
-                  alt={"rrr image"}
-                  style={{
-                    borderRadius: "2rem 2rem 1rem 1rem ",
-                  }}
-                  onClick={() => {
-                    router.push("/VideoPlayer");
-                  }}
-                />
+                <div className="w-full h-[11.25rem]">
+                  <img
+                    src={`https://ipfs.io/ipfs/${video.videoPic}`}
+                    // src={tanjiro}
+                    alt={"rrr image"}
+                    className="w-full h-full object-contain sidebarGradient"
+                    style={{
+                      borderRadius: "2rem 2rem 1rem 1rem ",
+                    }}
+                    onClick={() => {
+                      router.push(
+                        {
+                          pathname: "/profilePlayer",
+                          query: { playbackId: video.cId },
+                        },
+                        "/profilePlayer"
+                      );
+                    }}
+                  />
+                </div>
               </div>
               <div className="text-grey">{video.videoDesp}</div>
               <div className="flex justify-between text-white text-lg font-sansationB">
                 <div>{video.videoTitle}</div>
-                <div>{(video.duration/10**18).toString()}</div>
+                <div>{(video.duration / 10 ** 18).toString()}</div>
               </div>
-              <div className="text-grey text-sm">{video.uploadDate.toString()}</div>
+              <div className="text-grey text-sm">
+                {video.uploadDate.toString()}
+              </div>
             </div>
           );
-        })} */}
-        {assestResDum.map((asset, index) => {
+        })}
+        {/* {assestResDum.map((asset, index) => {
           const {
             videoId,
             cId,
@@ -115,7 +127,7 @@ const Profile = () => {
               <div className="text-grey text-sm">{uploadDate}</div>
             </div>
           );
-        })}
+        })} */}
       </div>
     </div>
   );

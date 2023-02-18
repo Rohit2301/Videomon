@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import Layout from "@/components/Layouts/layout/layout";
 import { Framework } from "@superfluid-finance/sdk-core";
 import { useSigner, useContract, useProvider, useAccount } from "wagmi";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import contractConfig from "../contractConfig.json";
 import { ethers } from "ethers";
 import { useLocation } from "react-router-dom";
@@ -80,7 +81,7 @@ const wagmiClient = createClient({
 
 export default function App({ Component, pageProps }) {
   const [activeClass, setActiveClass] = useState({
-    explore: true,
+    explore: false,
     upload: false,
     create: false,
     collection: false,
@@ -95,8 +96,9 @@ export default function App({ Component, pageProps }) {
   const currProvider = useProvider();
   const [signer, setSigner] = useState();
 
+  const [currUserData, setCurrUserData] = useState();
   const [allVideos, setAllVideos] = useState([]);
-  const [uploadedVideos, setUploadedVideos] = useState([])
+  const [uploadedVideos, setUploadedVideos] = useState([]);
 
   useEffect(() => {
     const settingContract = async () => {
@@ -163,7 +165,9 @@ export default function App({ Component, pageProps }) {
               allVideos,
               setAllVideos,
               uploadedVideos,
-              setUploadedVideos
+              setUploadedVideos,
+              currUserData,
+              setCurrUserData,
             }}
           >
             <Layout>

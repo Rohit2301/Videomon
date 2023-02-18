@@ -1,12 +1,13 @@
 import DragDropModal from "@/components/uploadPage/dragDropModal";
 import { CyanBtn } from "@/helpers/utils/buttons";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
   StreamDespInput,
   StreamTitleInput,
   StreamPriceInput,
 } from "@/components/uploadPage/textField";
 import { create as ipfsHttpClient } from "ipfs-http-client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Context from "../context";
 import { useContext } from "react";
 import { useSigner } from "wagmi";
@@ -25,8 +26,13 @@ import ReactModal from "react-modal";
 import StreamPlayer from "./StreamPlayer";
 import Image from "next/image";
 import PropagateLoader from "react-spinners/PropagateLoader";
+import { useContract, useAccount } from "wagmi";
+
 
 const CreateStream = () => {
+  const textRef = useRef(null);
+  const textRef2 = useRef(null);
+  const [streamId, setStreamId] = useState()
   const [streamTitle, setStreamTitle] = useState();
   const [streamDesp, setStreamDesp] = useState();
   const [streamPic, setStreamPic] = useState();
@@ -38,11 +44,17 @@ const CreateStream = () => {
   const [imageSrc, setImageSrc] = useState(null);
   const [streamCreated, setStreamCreated] = useState(false);
   const [loading, setLoading] = useState(false);
+  const allRight =
+    streamTitle != "" &&
+    streamDesp != "" &&
+    streamPrice != "" &&
+    streamPicName != "Select"
 
   const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_NFT_STORAGE_API_KEY;
   const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
 
   const context = useContext(Context);
+  const { address } = useAccount();
 
   useEffect(() => {
     context.setSigner(signer);
@@ -105,12 +117,39 @@ const CreateStream = () => {
       : null
   );
   const isLoading = useMemo(() => status === "loading", [status]);
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    createStream?.();
-    // console.log(stream);
-    setStreamCreated(true);
+
+  const handleCopyClick = () => {
+    const range = document.createRange();
+    range.selectNode(textRef.current);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+    window.getSelection().removeAllRanges();
   };
+
+  const handleCopyClick2 = () => {
+    const range = document.createRange();
+    range.selectNode(textRef.current);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+    window.getSelection().removeAllRanges();
+  };
+  const streamStart = async (e) => {
+    e.preventDefault()
+    const streamPriceBig = ethers.utils.parseUnits(streamPrice.toString(), 18);
+    const txn = await context.contractEthers.streamStart(stream.playbackId, streamTitle, streamDesp, streamPicCid, streamPriceBig);
+    await txn.wait();
+    console.log("Clicked")
+    const streamId = await context.contractEthers.currVideoId()
+    console.log(streamId) 
+    // setStreamCreated(true);
+  };
+
+  const stopStream = async (e) => {
+    const txn = await context.contractEthers.stopStream()
+  }
+
   return (
     <div>
       <div
@@ -130,7 +169,7 @@ const CreateStream = () => {
         {!streamCreated ? (
           <form
             onSubmit={(e) => {
-              handleUpload(e);
+              streamStart(e);
             }}
           >
             <div className="flex flex-col items-center justify-center py-16 px-20 gap-y-10 ">
@@ -173,7 +212,7 @@ const CreateStream = () => {
                         <CyanBtn
                           data={streamPicName}
                           size="text-lg"
-                          // overflow={thumbnailName.length > 8}
+                          overflow={streamPicName.length > 8}
                         >
                           <input
                             id="thumbnail"
@@ -208,6 +247,52 @@ const CreateStream = () => {
                       }
                     </div>
                   </div>
+                  <div className="w-full flex flex-row justify-start items-center">
+                    <div
+                      className="w-[40%]"
+                      onClick={() => {
+                        createStream?.();
+                      }}
+                    >
+                      {" "}
+                      <CyanBtn data={"Get Stream Key"} size="text-sm"></CyanBtn>
+                    </div>
+                    {stream?.streamKey ? (
+                      <>
+                        <span
+                          className="ml-5 mr-5 text-xs font-bold"
+                          ref={textRef}
+                        >
+                          {stream.streamKey}
+                        </span>{" "}
+                        <ContentCopyIcon
+                          className="cursor-pointer"
+                          onClick={() => {
+                            handleCopyClick();
+                          }}
+                        >
+                          Copy
+                        </ContentCopyIcon>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                  <div>
+                    <span>Server :</span>
+                    <span className="mr-5 ml-2" ref={textRef2}>
+                      rtmp://rtmp.livepeer.com/live
+                    </span>
+                    <ContentCopyIcon
+                      className="cursor-pointer"
+                      onClick={() => {
+                        handleCopyClick2();
+                      }}
+                    >
+                      Copy
+                    </ContentCopyIcon>
+                  </div>
+
                   {/* -----------------------------thumbnail----------------------- */}
                 </div>
                 {/* -------------------------------Utube video player------------------------ */}
@@ -223,7 +308,9 @@ const CreateStream = () => {
               {/* -------------------------------Utube video player------------------------ */}
               {/* ------------------------------upload from btn------------------------ */}
               <div className="relative w-52 right-20">
-                <CyanBtn>
+                <CyanBtn 
+                invalid={!allRight}
+                >
                   <input
                     type="submit"
                     value="Create Stream"
@@ -236,14 +323,21 @@ const CreateStream = () => {
             </div>
           </form>
         ) : (
-          <div className="relative mt-28 ml-10">
-            {stream?.playbackId && (
-              <Player
-                title={stream?.name}
-                playbackId={stream?.playbackId}
-                autoPlay
-                muted
-              />
+          <div className="relative mt-16 ml-60 w-[65%] flex flex-col justify-center items-center">
+            {stream?.playbackId ? (
+              <>
+                <Player
+                  title={stream?.name}
+                  playbackId={stream?.playbackId}
+                  autoPlay
+                  muted
+                />
+                <div className="mt-5" onClick={()=>{stopStream()}}>
+                  <CyanBtn data={"Stop Stream"} size="text-sm"></CyanBtn>
+                </div>
+              </>
+            ) : (
+              <div className="text-4xl font-sansationR pb-8">The Stream has Stopped</div>
             )}
           </div>
         )}
