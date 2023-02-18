@@ -43,7 +43,7 @@ const DragDropModal = ({
       console.log(assets[0].playbackId);
       setUploadedSuccessful(true);
       setVideoCid(assets[0].playbackId);
-      setLoading(false)
+      setLoading(false);
     }
   }, [progress]);
 

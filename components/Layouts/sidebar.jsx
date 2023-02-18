@@ -6,12 +6,15 @@ import { useRouter } from "next/router";
 const Sidebar = () => {
   const context = useContext(Context);
   const { asPath } = useRouter();
+  const router = useRouter();
+  const { pathname } = router;
   const origin =
     typeof window !== "undefined" && window.location.origin
       ? window.location.origin
       : "";
 
   const URL = `${origin}${asPath}`;
+  console.log(URL);
   return (
     <div
       className={`${
@@ -20,7 +23,7 @@ const Sidebar = () => {
         URL === "http://localhost:3000/profilePlayer"
           ? "hidden"
           : ""
-      }`}
+      } ${router.asPath === "/" ? "hidden" : ""}`}
     >
       {/* TODO: CAHNGE LOCALHOST URL */}
       <div

@@ -82,6 +82,7 @@ const wagmiClient = createClient({
 export default function App({ Component, pageProps }) {
   const [activeClass, setActiveClass] = useState({
     explore: false,
+    explore: false,
     upload: false,
     create: false,
     collection: false,

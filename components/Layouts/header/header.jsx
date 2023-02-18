@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 const Header = () => {
   const context = useContext(Context);
   const { asPath } = useRouter();
+  const router = useRouter();
+  const { pathname } = router;
   const origin =
     typeof window !== "undefined" && window.location.origin
       ? window.location.origin
@@ -23,7 +25,7 @@ const Header = () => {
         URL === "http://localhost:3000/profilePlayer"
           ? "hidden"
           : ""
-      }`}
+      } ${router.asPath === "/" ? "hidden" : ""}`}
     >
       <div
         className="relative flex justify-between px-20 py-8 content-center"
@@ -31,10 +33,11 @@ const Header = () => {
       >
         <div className="">
           <Link
-            href={"/"}
+            href={"http://localhost:3000/"}
             onClick={() => {
               context.setActiveClass({
-                explore: true,
+                explore: false,
+                upload: false,
                 create: false,
                 collection: false,
                 myProfile: false,

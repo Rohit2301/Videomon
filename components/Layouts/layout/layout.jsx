@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 const Layout = ({ children }) => {
   const { asPath } = useRouter();
+  const router = useRouter();
   const origin =
     typeof window !== "undefined" && window.location.origin
       ? window.location.origin
@@ -18,7 +19,13 @@ const Layout = ({ children }) => {
       </div>
       <div className="relative flex">
         <div>{<Sidebar />}</div>
-        <div className="w-96" />
+        <div
+          className={`${
+            URL === "http://localhost:3000/" || URL === "http://localhost:3000"
+              ? "hidden"
+              : "w-96"
+          } ${router.asPath === "/" ? "hidden" : ""}`}
+        />
         <div>{children}</div>
       </div>
     </>

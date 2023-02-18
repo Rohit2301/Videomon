@@ -98,7 +98,11 @@ const Explore = () => {
           {context.allVideos?.map((video, index) => {
             return <VideoComponent key={video.videoId} video={video} />;
           })}
-          {context.allVideos.length == 0 && <span className="text-4xl font-sansationR pb-8">There are no videos</span>}
+          {context.allVideos.length == 0 && (
+            <span className="text-4xl font-sansationR pb-8">
+              There are no videos
+            </span>
+          )}
           {/* mapping into divs */}
         </div>
       ) : (
