@@ -4,13 +4,13 @@ import { useMemo, useState } from "react";
 import LivepeerUploader from "@/helpers/uploadFile/uploader";
 import { useRouter } from "next/router";
 import { CyanBtn } from "@/helpers/utils/buttons";
-import Context from "../context"
+import Context from "../context";
 import { useSigner, useContract, useAccount } from "wagmi";
-
+import Head from "next/head";
 
 const StreamPlayer = () => {
   const router = useRouter();
-  const context = useContext(Context)
+  const context = useContext(Context);
   const [stream, setStream] = useState({});
   const { data: signer, isError, isLoading } = useSigner();
   const {
@@ -43,31 +43,43 @@ const StreamPlayer = () => {
     });
   }, []);
 
-  const stopViewStream = async() => {
+  const stopViewStream = async () => {
     let flowOp = context.superToken.deleteFlow({
       sender: stream.sender,
       receiver: stream.uploader,
     });
     const txn1 = await flowOp.exec(signer);
     await txn1.wait();
-    const txn2 = await context.contractEthers.stopViewingStream(stream.streamId);
+    const txn2 = await context.contractEthers.stopViewingStream(
+      stream.streamId
+    );
     await txn2.wait();
-    router.push("explore")
-  }
+    router.push("explore");
+  };
 
   return (
-    <div className="relative mt-16 ml-60 w-[65%] flex flex-col justify-center items-center">
-      <Player
-        title={stream.streamTitle}
-        playbackId={stream.cId}
-        autoPlay
-        muted
-      />
-      <div className="mt-5" onClick={() => {stopViewStream()}}>
-        <CyanBtn data={"Stop Stream"} size="text-sm"></CyanBtn>
+    <>
+      <Head>
+        <title>Videmon</title>
+      </Head>
+      <div className="relative mt-16 ml-60 w-[65%] flex flex-col justify-center items-center">
+        <Player
+          title={stream.streamTitle}
+          playbackId={stream.cId}
+          autoPlay
+          muted
+        />
+        <div
+          className="mt-5"
+          onClick={() => {
+            stopViewStream();
+          }}
+        >
+          <CyanBtn data={"Stop Stream"} size="text-sm"></CyanBtn>
+        </div>
       </div>
-    </div>
-    // <LivepeerUploader/>
+      {/* <LivepeerUploader /> */}
+    </>
   );
 };
 

@@ -145,6 +145,40 @@ const Explore = () => {
             </div>
           )}
         </div>
+        {/* <div>{context.superTokenBalance}</div> */}
+        {/* <span>{context.allVideos[0].videoId.toString()}</span> */}
+        <div className="text-4xl font-sansationR pb-8">Explore</div>
+        {videoExplore ? (
+          <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
+            {/* mapping into divs */}
+            {context.allVideos?.map((video, index) => {
+              return <VideoComponent key={video.cId} video={video} />;
+            })}
+            {context.allVideos.length == 0 && (
+              <span className="text-4xl font-sansationR pb-8">
+                There are no videos
+              </span>
+            )}
+            {/* mapping into divs */}
+          </div>
+        ) : (
+          <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
+            {/* mapping into divs */}
+            {context.uploadedStreams?.map((stream, index) => {
+              return (
+                <>
+                  <StreamComponent key={stream.cId} stream={stream} />
+                </>
+              );
+            })}
+            {context.uploadedStreams.length == 0 && (
+              <span className="text-4xl font-sansationR pb-8">
+                There are no Live streams
+              </span>
+            )}
+            {/* mapping into divs */}
+          </div>
+        )}
       </div>
     </div>
   );

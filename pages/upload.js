@@ -15,6 +15,7 @@ import {
 } from "@/components/uploadPage/textField";
 import { useRouter } from "next/router.js";
 import PropagateLoader from "react-spinners/PropagateLoader";
+import Head from "next/head";
 
 const Upload = () => {
   const router = useRouter();
@@ -127,7 +128,11 @@ const Upload = () => {
     router.push("profile");
   };
   return (
-    <div>
+    <>
+      <Head>
+        <title>Videmon</title>
+      </Head>
+      <div>
         <div
           className={`${
             loading
@@ -141,129 +146,131 @@ const Upload = () => {
             <></>
           )}
         </div>
-      <div className={`z-0 ${loading ? "opacity-30" : ""}`}>
-        <form
-          onSubmit={(e) => {
-            handleUpload(e);
-          }}
-        >
-          <div className="flex flex-col items-center justify-center py-16 px-20 gap-y-10 ">
-            <div
-              className="self-start text-2xl font-sansationR text-white"
-              onClick={() => {
-                console.log(context.signer);
-              }}
-            >
-              Enter the details of your video
-            </div>
-            {/* drop modla and form  */}
-            <div className="flex items-center justify-center gap-x-40">
-              {/* text field form */}
-              <div className="flex flex-col gap-y-10 self-start">
-                <div>
-                  <VideoTitleInput
-                    label={"Title"}
-                    setVideoTitle={setVideoTitle}
-                  />
-                </div>
-                <div>
-                  {
-                    <VideoDescriptionInput
-                      label={"Description"}
-                      setVideoDescription={setVideoDescription}
+        <div className={`z-0 ${loading ? "opacity-30" : ""}`}>
+          <form
+            onSubmit={(e) => {
+              handleUpload(e);
+            }}
+          >
+            <div className="flex flex-col items-center justify-center py-16 px-20 gap-y-10 ">
+              <div
+                className="self-start text-2xl font-sansationR text-white"
+                onClick={() => {
+                  console.log(context.signer);
+                }}
+              >
+                Enter the details of your video
+              </div>
+              {/* drop modla and form  */}
+              <div className="flex items-center justify-center gap-x-40">
+                {/* text field form */}
+                <div className="flex flex-col gap-y-10 self-start">
+                  <div>
+                    <VideoTitleInput
+                      label={"Title"}
+                      setVideoTitle={setVideoTitle}
                     />
-                  }
-                </div>
-                <div>
-                  {
-                    <VideoPriceInput
-                      label={"Price"}
-                      setVideoPrice={setVideoPrice}
-                    />
-                  }
-                </div>
-                <div className="flex items-center justify-between pr-5">
-                  <div className="relative font-sansationR text-xl">
-                    Thumbnail
                   </div>
-                  {client ? (
-                    <div className="w-30">
-                      <CyanBtn
-                        data={thumbnailName}
-                        size="text-lg"
-                        overflow={thumbnailName.length > 8}
-                      >
-                        <input
-                          id="thumbnail"
-                          name="thumbnail"
-                          type="file"
-                          className="absolute inset-0 opacity-0 w-full h-full"
-                          onChange={(e) => {
-                            thumbnailUploader(e);
-                          }}
-                        ></input>
-                      </CyanBtn>
-                    </div>
-                  ) : (
-                    "Please connect ipfs first"
-                  )}
                   <div>
                     {
-                      imageSrc ? (
-                        <>
-                          <img
-                            className="image"
-                            alt={`Uploaded `}
-                            src={imageSrc}
-                            style={{ maxWidth: "80px", margin: "0px" }}
-                            // key={uploadedImages.cid.toString()}
-                          />
-                        </>
-                      ) : (
-                        <></>
-                      )
-                      // ))
+                      <VideoDescriptionInput
+                        label={"Description"}
+                        setVideoDescription={setVideoDescription}
+                      />
                     }
                   </div>
+                  <div>
+                    {
+                      <VideoPriceInput
+                        label={"Price"}
+                        setVideoPrice={setVideoPrice}
+                        videoDuration={videoDuration}
+                      />
+                    }
+                  </div>
+                  <div className="flex items-center justify-between pr-5">
+                    <div className="relative font-sansationR text-xl">
+                      Thumbnail
+                    </div>
+                    {client ? (
+                      <div className="w-30">
+                        <CyanBtn
+                          data={thumbnailName}
+                          size="text-lg"
+                          overflow={thumbnailName.length > 8}
+                        >
+                          <input
+                            id="thumbnail"
+                            name="thumbnail"
+                            type="file"
+                            className="absolute inset-0 opacity-0 w-full h-full"
+                            onChange={(e) => {
+                              thumbnailUploader(e);
+                            }}
+                          ></input>
+                        </CyanBtn>
+                      </div>
+                    ) : (
+                      "Please connect ipfs first"
+                    )}
+                    <div>
+                      {
+                        imageSrc ? (
+                          <>
+                            <img
+                              className="image"
+                              alt={`Uploaded `}
+                              src={imageSrc}
+                              style={{ maxWidth: "80px", margin: "0px" }}
+                              // key={uploadedImages.cid.toString()}
+                            />
+                          </>
+                        ) : (
+                          <></>
+                        )
+                        // ))
+                      }
+                    </div>
+                  </div>
+                  {/*  */}
+
+                  {/* thumbnail */}
                 </div>
-                {/*  */}
 
-                {/* thumbnail */}
+                {/* text field form */}
+                <div className="flex flex-col justify-center items-center relative top-[-3rem]">
+                  <DragDropModal
+                    setLoading={setLoading}
+                    video={video}
+                    setVideo={setVideo}
+                    fileName={fileName}
+                    setFileName={setFileName}
+                    setVideoDuration={setVideoDuration}
+                    uploadedSuccessful={uploadedSuccessful}
+                    setUploadedSuccessful={setUploadedSuccessful}
+                    videoCid={videoCid}
+                    setVideoCid={setVideoCid}
+                  />
+                </div>
+
+                {/* <div>{context.videoDuration}</div> */}
               </div>
-
-              {/* text field form */}
-              <div className="flex flex-col justify-center items-center relative top-[-3rem]">
-                <DragDropModal
-                  setLoading={setLoading}
-                  video={video}
-                  setVideo={setVideo}
-                  fileName={fileName}
-                  setFileName={setFileName}
-                  setVideoDuration={setVideoDuration}
-                  uploadedSuccessful={uploadedSuccessful}
-                  setUploadedSuccessful={setUploadedSuccessful}
-                  videoCid={videoCid}
-                  setVideoCid={setVideoCid}
-                />
+              {/* drop modla and form  */}
+              <div className="relative w-32 right-20 top-[-2rem]">
+                <CyanBtn invalid={!allRight}>
+                  <input
+                    type={allRight ? "submit" : "button"}
+                    value="Upload"
+                    className="cursor-pointer"
+                    onClick={() => {}}
+                  />
+                </CyanBtn>
               </div>
-
-              {/* <div>{context.videoDuration}</div> */}
             </div>
-            {/* drop modla and form  */}
-            <div className="relative w-32 right-20 top-[-2rem]">
-              <CyanBtn invalid={!allRight}>
-                <input
-                  type={allRight ? "submit" : "button"}
-                  value="Upload"
-                  className="cursor-pointer"
-                  onClick={() => {}}
-                />
-              </CyanBtn>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 export default Upload;

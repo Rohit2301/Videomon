@@ -11,8 +11,8 @@ import { useSigner, useContract, useAccount } from "wagmi";
 import { getEllipsisTxt } from "@/helpers/formatters";
 import { useRouter } from "next/router";
 import { SecondsToHms } from "@/helpers/formatters";
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 import Link from "next/link";
 import SuperMatic from "@/components/superMatic";
 
@@ -21,8 +21,8 @@ const Profile = () => {
   const { address } = useAccount();
   const { data: signer, isError, isLoading } = useSigner();
   const provider = useProvider();
-  TimeAgo.addDefaultLocale(en)
-  const timeAgo = new TimeAgo('en-US')
+  TimeAgo.addDefaultLocale(en);
+  const timeAgo = new TimeAgo("en-US");
 
   useEffect(() => {
     const getUploadedVideos = async () => {
@@ -85,24 +85,25 @@ const Profile = () => {
               </div>
               <div className="flex justify-between items-center text-white text-lg font-sansationB">
                 <div>{video.videoTitle}</div>
-                <div className="text-sm">{SecondsToHms(parseFloat(video.duration / 10 ** 18))}</div>
+                <div className="text-sm">
+                  {SecondsToHms(parseFloat(video.duration / 10 ** 18))}
+                </div>
               </div>
               <div className="flex justify-between items-center text-white text-lg font-sansationB">
-              <div className="text-grey text-sm">{video.videoDesp}</div>
-              {/* <div className="flex flex-row justify-center items-center gap-2">
+                <div className="text-grey text-sm">{video.videoDesp}</div>
+                {/* <div className="flex flex-row justify-center items-center gap-2">
                 <span>{parseFloat(video.flowRate/10**18).toPrecision(2)}</span>
                 <SuperMatic></SuperMatic>
                 <span className="text-grey text-xs">/s</span>
               </div> */}
               </div>
-              
+
               <div className="text-grey text-xs">
-                {timeAgo.format(video.uploadDate*1000)}
+                {timeAgo.format(video.uploadDate * 1000)}
               </div>
             </div>
           );
         })}
-
       </div>
     </div>
   );

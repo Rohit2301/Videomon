@@ -108,7 +108,6 @@ const VideoPlayer = () => {
       });
       await flowOp.exec(signer);
       setLoading(false);
-      
     } else {
       setLoading(true);
       let flowOp = context.superToken.createFlow({

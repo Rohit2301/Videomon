@@ -18,6 +18,7 @@ const DragDropModal = ({
   videoCid,
   setVideoCid,
 }) => {
+  const [hideUpload, setHideUpload] = useState(false);
   const {
     mutate: createAsset,
     data: assets,
@@ -35,6 +36,7 @@ const DragDropModal = ({
   useEffect(() => {
     if (progress?.[0].phase === "uploading") {
       setLoading(true);
+      setHideUpload(true);
     }
     if (
       progress?.[0].phase === "ready" &&
@@ -120,15 +122,17 @@ const DragDropModal = ({
         </CyanBtn>
         {progressFormatted && <p className="text-xs">{progressFormatted}</p>}
       </div>
-      <CyanBtn data="Upload" size="text-xl">
-        <input
-          type="button"
-          className="absolute inset-0 opacity-0 w-full h-full"
-          onClick={() => {
-            createAsset?.();
-          }}
-        ></input>
-      </CyanBtn>
+      <div className={`${hideUpload ? "hidden" : ""}`}>
+        <CyanBtn data="Upload" size="text-xl">
+          <input
+            type="button"
+            className="absolute inset-0 opacity-0 w-full h-full"
+            onClick={() => {
+              createAsset?.();
+            }}
+          ></input>
+        </CyanBtn>
+      </div>
     </div>
   );
 };

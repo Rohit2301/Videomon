@@ -10,9 +10,8 @@ import VideoComponent from "@/components/videoComponent";
 import { useSigner, useContract, useAccount } from "wagmi";
 import contractConfig from "../contractConfig.json";
 import { useProvider } from "wagmi";
+import Head from "next/head";
 import { ethers } from "ethers";
-
-
 
 const Collection = () => {
   const router = useRouter();
@@ -50,19 +49,22 @@ const Collection = () => {
     if (provider && signer) {
       getWatchingVideos();
     }
-  }, [provider, signer,
-  context.watchingVideos
-  ]);
+  }, [provider, signer, context.watchingVideos]);
 
   return (
-    <div className="pt-14 pb-10">
-      <div className="text-4xl font-sansationR pb-8">My Collection</div>
-      <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
-      {context.watchingVideos?.map((video, index) => {
+    <>
+      <Head>
+        <title>Videomon</title>
+      </Head>
+      <div className="pt-14 pb-10">
+        <div className="text-4xl font-sansationR pb-8">My Collection</div>
+        <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
+          {context.watchingVideos?.map((video, index) => {
             return <VideoComponent key={video.cId} video={video} />;
           })}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 export default Collection;
