@@ -14,7 +14,6 @@ const Sidebar = () => {
       : "";
 
   const URL = `${origin}${asPath}`;
-  console.log(URL);
   return (
     <div
       className={`${

@@ -70,6 +70,7 @@ const VideoPlayer = () => {
     if (playerRef.current.currentTime === playerRef.current.duration) {
       handleStop();
     }
+
     // return () => {
     //   playerRef.current.removeEventListener("timeupdate", handleTimeUpdate);
     // };
@@ -119,7 +120,10 @@ const VideoPlayer = () => {
   const handleStop = async () => {
     playerRef.current.pause();
     setIsPlaying(false);
-    const endTime = ethers.utils.parseUnits(playerRef.current.currentTime.toString(), 18);
+    const endTime = ethers.utils.parseUnits(
+      playerRef.current.currentTime.toString(),
+      18
+    );
     const txn1 = await context.contractEthers.stopViewingVideo(
       video.videoId,
       endTime

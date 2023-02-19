@@ -100,6 +100,9 @@ export default function App({ Component, pageProps }) {
   const [currUserData, setCurrUserData] = useState();
   const [allVideos, setAllVideos] = useState([]);
   const [uploadedVideos, setUploadedVideos] = useState([]);
+  const [uploadedStreams, setUploadedStreams] = useState([]);
+  const [watchingVideos, setWatchingVideos] = useState([]);
+
 
   useEffect(() => {
     const settingContract = async () => {
@@ -169,6 +172,10 @@ export default function App({ Component, pageProps }) {
               setUploadedVideos,
               currUserData,
               setCurrUserData,
+              uploadedStreams,
+              setUploadedStreams,
+              watchingVideos,
+              setWatchingVideos
             }}
           >
             <Layout>

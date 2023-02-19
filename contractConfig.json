@@ -1,5 +1,5 @@
 {
-  "address": "0x4ff075ae5ff4D0923e76E06dac33e35626D0eBd9",
+  "address": "0x7896d256805410085CaB3bc941ec1181D6bCdfe9",
   "abi": [
     {
       "inputs": [],
@@ -97,12 +97,6 @@
           "type": "string"
         },
         {
-          "indexed": false,
-          "internalType": "bool",
-          "name": "isStream",
-          "type": "bool"
-        },
-        {
           "indexed": true,
           "internalType": "address",
           "name": "uploader",
@@ -192,6 +186,19 @@
     },
     {
       "inputs": [],
+      "name": "currStreamId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "currVideoId",
       "outputs": [
         {
@@ -217,20 +224,14 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_currUser",
-          "type": "address"
-        }
-      ],
+      "inputs": [],
       "name": "showAllStreams",
       "outputs": [
         {
           "components": [
             {
               "internalType": "uint256",
-              "name": "videoId",
+              "name": "streamId",
               "type": "uint256"
             },
             {
@@ -252,11 +253,6 @@
               "internalType": "string",
               "name": "streamPic",
               "type": "string"
-            },
-            {
-              "internalType": "bool",
-              "name": "isStream",
-              "type": "bool"
             },
             {
               "internalType": "bool",
@@ -524,8 +520,13 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "_videoId",
+          "name": "_streamId",
           "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_uploader",
+          "type": "address"
         }
       ],
       "name": "stopStream",
@@ -537,7 +538,7 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "_videoId",
+          "name": "_streamId",
           "type": "uint256"
         }
       ],
@@ -562,6 +563,70 @@
       "name": "stopViewingVideo",
       "outputs": [],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "streamIdToStream",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "streamId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "cId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "streamTitle",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "streamDesp",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "streamPic",
+          "type": "string"
+        },
+        {
+          "internalType": "bool",
+          "name": "isLive",
+          "type": "bool"
+        },
+        {
+          "internalType": "address",
+          "name": "uploader",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "uploadDate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int96",
+          "name": "flowRate",
+          "type": "int96"
+        },
+        {
+          "internalType": "uint256",
+          "name": "viewerCount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -672,75 +737,6 @@
           "type": "uint256"
         }
       ],
-      "name": "videoIdToStream",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "videoId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "cId",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "streamTitle",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "streamDesp",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "streamPic",
-          "type": "string"
-        },
-        {
-          "internalType": "bool",
-          "name": "isStream",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
-          "name": "isLive",
-          "type": "bool"
-        },
-        {
-          "internalType": "address",
-          "name": "uploader",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "uploadDate",
-          "type": "uint256"
-        },
-        {
-          "internalType": "int96",
-          "name": "flowRate",
-          "type": "int96"
-        },
-        {
-          "internalType": "uint256",
-          "name": "viewerCount",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
       "name": "videoIdToVideo",
       "outputs": [
         {
@@ -767,11 +763,6 @@
           "internalType": "string",
           "name": "videoPic",
           "type": "string"
-        },
-        {
-          "internalType": "bool",
-          "name": "isStream",
-          "type": "bool"
         },
         {
           "internalType": "address",
@@ -806,7 +797,7 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "_videoId",
+          "name": "_streamId",
           "type": "uint256"
         }
       ],

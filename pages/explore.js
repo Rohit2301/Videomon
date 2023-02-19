@@ -13,6 +13,7 @@ import UploadModal from "@/components/uploadModal";
 import LivepeerUploader from "@/helpers/uploadFile/uploader";
 import { CyanBtn } from "@/helpers/utils/buttons";
 import VideoComponent from "@/components/videoComponent";
+import StreamComponent from "@/components/streamComponent";
 
 const Explore = () => {
   const context = useContext(Context);
@@ -39,11 +40,11 @@ const Explore = () => {
     if (provider && signer) {
       context.initSf(provider);
     }
-  }, [provider, signer, context.superToken]);
+  }, [provider, signer]);
 
   useEffect(() => {
     context.setSigner(signer);
-    const getUploadVideoEvents = async () => {
+    const getUploadedVideosStreams = async () => {
       const contractEthers = new ethers.Contract(
         contractConfig.address,
         contractConfig.abi,
@@ -55,12 +56,18 @@ const Explore = () => {
       const allVideos = await contractEthers.showAllVideos(address);
       context.setAllVideos(allVideos);
       console.log(allVideos);
+      const allStreams = await contractEthers.showAllStreams();
+      context.setUploadedStreams(allStreams);
+      console.log(allStreams);
     };
 
     if (provider && signer) {
-      getUploadVideoEvents();
+      getUploadedVideosStreams();
     }
-  }, [provider, signer]);
+  }, [provider, signer,
+  // context.uploadedStreams,
+  // context.allVideos
+  ]);
 
   const convFlowRate = (_flowRate) => {
     const flowRate = (_flowRate / 10 ** 18).toString();
@@ -71,23 +78,23 @@ const Explore = () => {
   return (
     <div className="pt-10 pb-10">
       <div className="w-full flex gap-x-20 mb-8">
-        <CyanBtn
-          data={"Videos"}
-          className="text-2xl"
+        <div
           onClick={() => {
             setVideoExplore(true);
             setStreamExplore(false);
           }}
-        />
-        <CyanBtn
-          data={"Stream"}
-          className="text-2xl"
+        >
+          <CyanBtn data={"Videos"} className="text-2xl" />
+        </div>
+        <div
           onClick={() => {
             setVideoExplore(false);
             setStreamExplore(true);
             console.log(signer, context.signer, context.contractEthers);
           }}
-        />
+        >
+          <CyanBtn data={"Stream"} className="text-2xl" />
+        </div>
       </div>
       {/* <div>{context.superTokenBalance}</div> */}
       {/* <span>{context.allVideos[0].videoId.toString()}</span> */}
@@ -96,7 +103,7 @@ const Explore = () => {
         <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
           {/* mapping into divs */}
           {context.allVideos?.map((video, index) => {
-            return <VideoComponent key={video.videoId} video={video} />;
+            return <VideoComponent key={video.cId} video={video} />;
           })}
           {context.allVideos.length == 0 && (
             <span className="text-4xl font-sansationR pb-8">
@@ -108,30 +115,16 @@ const Explore = () => {
       ) : (
         <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
           {/* mapping into divs */}
-          {context.allVideos?.map((video, index) => {
-            return (
-              <div key={index} className="font-sansationR">
-                <div className="w-80 cursor-pointer">
-                  <Image
-                    src={tanjiro}
-                    alt={"rrr image"}
-                    style={{
-                      borderRadius: "2rem 2rem 1rem 1rem ",
-                    }}
-                    onClick={() => {}}
-                  />
-                </div>
-                <div className="text-grey">{video.videoDesp}</div>
-                <div className="flex justify-between text-white text-lg font-sansationB">
-                  <div>{video.videoTitle}</div>
-                  <div>{(video.duration / 10 ** 18).toString()}</div>
-                </div>
-                <div className="text-grey text-sm">
-                  {video.uploadDate.toString()}
-                </div>
-              </div>
-            );
+          {context.uploadedStreams?.map((stream, index) => {
+            return <>
+            <StreamComponent key={stream.cId} stream={stream} />
+            </>;
           })}
+          {context.uploadedStreams.length == 0 && (
+            <span className="text-4xl font-sansationR pb-8">
+              There are no Live streams
+            </span>
+          )}
           {/* mapping into divs */}
         </div>
       )}

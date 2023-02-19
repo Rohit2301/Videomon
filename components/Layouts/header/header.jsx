@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useContext } from "react";
 import Context from "../../../context";
 import { useRouter } from "next/router";
+import SuperMatic from "@/components/superMatic";
 
 const Header = () => {
   const context = useContext(Context);
@@ -15,6 +16,8 @@ const Header = () => {
     typeof window !== "undefined" && window.location.origin
       ? window.location.origin
       : "";
+
+  const balance = (context.superTokenBalance / 10 ** 18).toFixed(3);
 
   const URL = `${origin}${asPath}`;
   return (
@@ -52,7 +55,16 @@ const Header = () => {
             />
           </Link>
         </div>
-        <div className="text-cyan text-5xl font-sansationR">Videomon</div>
+        {/* <div className="text-cyan text-5xl font-sansationR">Videomon</div> */}
+        <div className="flex flex-col justify-center items-center">
+          <span className="text-cyan text-xl font-sansationR">Balance</span>
+          <div className="flex gap-4">
+            <span className="text-white text-2xl font-sansationR">
+              {context.superTokenBalance ? balance : "Connect Wallet"}
+            </span>
+            <SuperMatic></SuperMatic>
+          </div>
+        </div>
         <div className="relative top-2">
           <ConnectButton />
         </div>

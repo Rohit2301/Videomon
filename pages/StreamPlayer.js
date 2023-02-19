@@ -1,58 +1,71 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { Player, useCreateStream } from "@livepeer/react";
 import { useMemo, useState } from "react";
 import LivepeerUploader from "@/helpers/uploadFile/uploader";
+import { useRouter } from "next/router";
+import { CyanBtn } from "@/helpers/utils/buttons";
+import Context from "../context"
+import { useSigner, useContract, useAccount } from "wagmi";
+
 
 const StreamPlayer = () => {
-  const [streamName, setStreamName] = useState();
+  const router = useRouter();
+  const context = useContext(Context)
+  const [stream, setStream] = useState({});
+  const { data: signer, isError, isLoading } = useSigner();
   const {
-    mutate: createStream,
-    data: stream,
-    status,
-  } = useCreateStream(
-    streamName
-      ? {
-          name: streamName,
-          playbackPolicy: {
-            type: "public",
-          },
-        }
-      : null
-  );
-  const isLoading = useMemo(() => status === "loading", [status]);
+    streamId,
+    cId,
+    streamTitle,
+    streamDesp,
+    streamPic,
+    isLive,
+    uploader,
+    uploadDate,
+    flowRate,
+    viewerCount,
+    sender,
+  } = router.query;
+
+  useEffect(() => {
+    setStream({
+      streamId,
+      cId,
+      streamTitle,
+      streamDesp,
+      streamPic,
+      isLive,
+      uploader,
+      uploadDate,
+      flowRate,
+      viewerCount,
+      sender,
+    });
+  }, []);
+
+  const stopViewStream = async() => {
+    let flowOp = context.superToken.deleteFlow({
+      sender: stream.sender,
+      receiver: stream.uploader,
+    });
+    const txn1 = await flowOp.exec(signer);
+    await txn1.wait();
+    const txn2 = await context.contractEthers.stopViewingStream(stream.streamId);
+    await txn2.wait();
+    router.push("explore")
+  }
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Stream name"
-        onChange={(e) => setStreamName(e.target.value)}
+    <div className="relative mt-16 ml-60 w-[65%] flex flex-col justify-center items-center">
+      <Player
+        title={stream.streamTitle}
+        playbackId={stream.cId}
+        autoPlay
+        muted
       />
-      <div>
-        {!stream && (
-          <button
-            className="bg-cyan text-black"
-            onClick={async () => {
-              createStream?.();
-              console.log(stream);
-            }}
-            disabled={isLoading || !createStream}
-          >
-            Create Stream
-          </button>
-        )}
+      <div className="mt-5" onClick={() => {stopViewStream()}}>
+        <CyanBtn data={"Stop Stream"} size="text-sm"></CyanBtn>
       </div>
-      {stream?.playbackId && (
-        <Player
-          title={stream?.name}
-          playbackId={stream?.playbackId}
-          autoPlay
-          muted
-        />
-      )}
-      <div>{stream?.playbackId}</div>
-      <div>{stream?.streamKey}</div>
-      <div>{stream?.playbackUrl}</div>
     </div>
     // <LivepeerUploader/>
   );

@@ -61,7 +61,7 @@ const Profile = () => {
                     src={`https://ipfs.io/ipfs/${video.videoPic}`}
                     // src={tanjiro}
                     alt={"rrr image"}
-                    className="w-full h-full object-contain sidebarGradient"
+                    className="w-full h-full object-contain sidebarGradient hover:border hover:border-cyan hover:border-2 hover:animate-pulse"
                     style={{
                       borderRadius: "2rem 2rem 1rem 1rem ",
                     }}

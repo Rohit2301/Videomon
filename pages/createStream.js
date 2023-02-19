@@ -142,12 +142,15 @@ const CreateStream = () => {
     await txn.wait();
     console.log("Clicked")
     const streamId = await context.contractEthers.currVideoId()
-    console.log(streamId) 
-    // setStreamCreated(true);
+    console.log(parseInt(streamId))
+    setStreamId(parseInt(streamId))
+    setStreamCreated(true);
   };
 
-  const stopStream = async (e) => {
-    const txn = await context.contractEthers.stopStream()
+  const stopStream = async () => {
+    const txn = await context.contractEthers.stopStream(streamId, address);
+    await txn.wait();
+    router.push("explore")
   }
 
   return (
@@ -196,7 +199,7 @@ const CreateStream = () => {
                   <div>
                     {
                       <StreamPriceInput
-                        label={"Price"}
+                        label={"Flow Rate"}
                         setStreamPrice={setStreamPrice}
                       />
                     }
@@ -251,6 +254,7 @@ const CreateStream = () => {
                     <div
                       className="w-[40%]"
                       onClick={() => {
+                        console.log("clicked")
                         createStream?.();
                       }}
                     >

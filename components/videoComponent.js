@@ -13,6 +13,7 @@ const VideoComponent = ({ video }) => {
     console.log(video);
     const txn1 = await context.contractEthers.viewVideo(_videoId);
     await txn1.wait();
+    console.log(_flowRate.toString())
     let flowOp = context.superToken.createFlow({
       sender: address,
       receiver: _uploader,
