@@ -27,6 +27,7 @@
     "graphql": "^16.6.0",
     "ipfs-core": "^0.18.0",
     "ipfs-http-client": "^50.1.2",
+    "javascript-time-ago": "^2.5.9",
     "moralis": "^2.13.0",
     "next": "13.1.6",
     "nft.storage": "^7.0.0",

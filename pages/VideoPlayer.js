@@ -10,10 +10,12 @@ import { Framework } from "@superfluid-finance/sdk-core";
 import Context from "../context";
 import { useRouter } from "next/router";
 import { ethers } from "ethers";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 const VideoPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMute, setIsMute] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const playerRef = React.useRef(null);
   const [volume, setVolume] = useState(1);
@@ -64,7 +66,7 @@ const VideoPlayer = () => {
 
   useEffect(() => {
     const handleTimeUpdate = () => {
-      setCurrentTime(playerRef.current.currentTime);
+      if (playerRef.current) setCurrentTime(playerRef.current.currentTime);
     };
     playerRef.current.addEventListener("timeupdate", handleTimeUpdate);
     if (playerRef.current.currentTime === playerRef.current.duration) {
@@ -98,13 +100,17 @@ const VideoPlayer = () => {
   const handlePlayPause = async () => {
     if (isPlaying) {
       playerRef.current.pause();
+      setLoading(true);
       setIsPlaying(!isPlaying);
       let flowOp = context.superToken.deleteFlow({
         sender: sender,
         receiver: video.uploader,
       });
       await flowOp.exec(signer);
+      setLoading(false);
+      
     } else {
+      setLoading(true);
       let flowOp = context.superToken.createFlow({
         sender: sender,
         receiver: video.uploader,
@@ -112,12 +118,15 @@ const VideoPlayer = () => {
       });
       const txn = await flowOp.exec(signer);
       await txn.wait();
+      setLoading(false);
       playerRef.current.play();
       setIsPlaying(!isPlaying);
     }
   };
 
   const handleStop = async () => {
+    setLoading(true);
+    await playerRef.current.removeEventListener("timeupdate", handleTimeUpdate);
     playerRef.current.pause();
     setIsPlaying(false);
     const endTime = ethers.utils.parseUnits(
@@ -135,6 +144,7 @@ const VideoPlayer = () => {
     });
     const txn2 = await flowOp.exec(signer);
     await txn2.wait();
+    setLoading(false);
     router.push("/explore");
   };
 
@@ -165,54 +175,71 @@ const VideoPlayer = () => {
   };
 
   return (
-    <div className="reltaive flex flex-row justify-center items-center p-10">
-      <div>
-        <div className="relative flex flex-col justify-center items-center w-[62rem] right-40">
-          <ReactHlsPlayer
-            playerRef={playerRef}
-            src={`https://lp-playback.com/hls/${video.cId}/index.m3u8`}
-            width="100%"
-            onTimeUpdate={handleTimeUpdate}
-            autoPlay
-          />
-          <div className="w-full flex flex-col justify-center items-center mt-4">
-            <input
-              type="range"
-              min="0"
-              max={playerRef.current ? playerRef.current.duration : 0}
-              value={currentTime}
-              onChange={handleSeek}
-              className="w-[100%]"
-            />
-
-            <div className="flex flex-row w-[100%] justify-between items-center">
-              <span>{currentTimeDisplay}</span>
-              <span>{totalDurationDisplay}</span>
-            </div>
-            <div className="flex flex-row w-[100%] justify-between items-center">
-              <div>
-                {isPlaying ? (
-                  <PauseIcon onClick={handlePlayPause}></PauseIcon>
-                ) : (
-                  <PlayArrowIcon onClick={handlePlayPause}></PlayArrowIcon>
-                )}
-                <StopIcon onClick={handleStop}></StopIcon>
-              </div>
-              <div>
-                {isMute ? (
-                  <VolumeOffIcon onClick={handleVolumeMute}></VolumeOffIcon>
-                ) : (
-                  <VolumeUpIcon onClick={handleVolumeMute}></VolumeUpIcon>
-                )}
-
+    <div>
+      <div
+        className={`${
+          loading
+            ? "z-10 absolute  w-[70rem] h-[34rem] flex justify-center items-center"
+            : "w-0 h-0"
+        }`}
+      >
+        {loading ? (
+          <PropagateLoader color={"#76DDDD"} loading={loading} size={16} />
+        ) : (
+          <></>
+        )}
+      </div>
+      <div className={`z-0 ${loading ? "opacity-30" : ""}`}>
+        <div className="reltaive flex flex-row justify-center items-center p-10">
+          <div>
+            <div className="relative flex flex-col justify-center items-center w-[62rem] right-40">
+              <ReactHlsPlayer
+                playerRef={playerRef}
+                src={`https://lp-playback.com/hls/${video.cId}/index.m3u8`}
+                width="100%"
+                onTimeUpdate={handleTimeUpdate}
+                autoPlay
+              />
+              <div className="w-full flex flex-col justify-center items-center mt-4">
                 <input
                   type="range"
                   min="0"
-                  max="1"
-                  step="0.01"
-                  value={volume}
-                  onChange={handleVolume}
+                  max={playerRef.current ? playerRef.current.duration : 0}
+                  value={currentTime}
+                  onChange={handleSeek}
+                  className="w-[100%]"
                 />
+
+                <div className="flex flex-row w-[100%] justify-between items-center">
+                  <span>{currentTimeDisplay}</span>
+                  <span>{totalDurationDisplay}</span>
+                </div>
+                <div className="flex flex-row w-[100%] justify-between items-center">
+                  <div>
+                    {isPlaying ? (
+                      <PauseIcon onClick={handlePlayPause}></PauseIcon>
+                    ) : (
+                      <PlayArrowIcon onClick={handlePlayPause}></PlayArrowIcon>
+                    )}
+                    <StopIcon onClick={handleStop}></StopIcon>
+                  </div>
+                  <div>
+                    {isMute ? (
+                      <VolumeOffIcon onClick={handleVolumeMute}></VolumeOffIcon>
+                    ) : (
+                      <VolumeUpIcon onClick={handleVolumeMute}></VolumeUpIcon>
+                    )}
+
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value={volume}
+                      onChange={handleVolume}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

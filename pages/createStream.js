@@ -136,6 +136,7 @@ const CreateStream = () => {
     window.getSelection().removeAllRanges();
   };
   const streamStart = async (e) => {
+    setLoading(true)
     e.preventDefault()
     const streamPriceBig = ethers.utils.parseUnits(streamPrice.toString(), 18);
     const txn = await context.contractEthers.streamStart(stream.playbackId, streamTitle, streamDesp, streamPicCid, streamPriceBig);
@@ -145,11 +146,14 @@ const CreateStream = () => {
     console.log(parseInt(streamId))
     setStreamId(parseInt(streamId))
     setStreamCreated(true);
+    setLoading(false)
   };
 
   const stopStream = async () => {
+    setLoading(true)
     const txn = await context.contractEthers.stopStream(streamId, address);
     await txn.wait();
+    setLoading(false)
     router.push("explore")
   }
 
