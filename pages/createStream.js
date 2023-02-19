@@ -319,7 +319,7 @@ const CreateStream = () => {
                   {/* -------------------------------Utube video player------------------------ */}
                   <div>
                     <ReactPlayer
-                      url="https://www.youtube.com/watch?v=5Eqb_-j3FDA"
+                      url="https://youtu.be/rPcPDbzTxqQ"
                       width="480px"
                       height="320px"
                       controls
