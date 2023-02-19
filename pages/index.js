@@ -8,6 +8,13 @@ import { useContext } from "react";
 import Image from "next/image";
 import Logo from "../public/Logo.png";
 import Link from "next/link";
+import OverlayPlayer from "../public/images/streamoverlay.png";
+import OverlayText from "../public/images/OverlayText.png";
+import Uzui from "../public/assets/introductory_vid/tengen-uzui-gyutaro.gif";
+import OverlayPlayerLight from "../public/images/streamOverlay Light.png";
+import darkFluid from "../public/images/fluid dark green.png";
+import lightFluid from "../public/images/fluid light green.png";
+import Livestream from "../public/images/Live Stream.png";
 
 const Home = () => {
   const router = useRouter();
@@ -50,19 +57,302 @@ const Home = () => {
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <main>
-        <div className="p-20">
-          <div className="flex gap-x-20 items-center justify-between">
-            <div className="flex flex-col">
-              <div className="w-[40rem]">
-                <Image src={Logo} alt={"Videomon logo"} draggable={false} />
+      <main className="">
+        <div className="animatedBg">
+          <div className="w-40 absolute top-[2rem]">
+            <Image src={darkFluid} alt={"Dark fluid"} draggable={false} />
+          </div>
+          <div className="absolute right-0 w-60 top-[30rem]">
+            <Image src={lightFluid} alt={"Dark fluid"} draggable={false} />
+          </div>
+          <div className="p-20">
+            <div className="flex gap-x-60 ml-40 items-center justify-center mt-40">
+              <div className="flex flex-col gap-y-20">
+                <div className="w-[40rem]">
+                  <Image src={Logo} alt={"Videomon logo"} draggable={false} />
+                </div>
+                <div className="text-3xl px-20 textGlowWhite">
+                  Stream and earn money
+                </div>
               </div>
-              <div>Tag line</div>
+              <div className="w-52 relative right-10">
+                <Link href={"/explore"}>
+                  <CyanBtn data={"Get Started"} />
+                </Link>
+              </div>
             </div>
-            <div className="w-52">
-              <Link href={"/explore"}>
-                <CyanBtn data={"Get Started"} />
-              </Link>
+          </div>
+
+          <div className="text-4xl font-sansationB mt-60 text-center w-full ">
+            How it Works
+          </div>
+          {/* ----------------------------------------------------------------------- */}
+          <div className="flex flex-col gap-y-20">
+            <div className="relative flex gap-x-20 pt-20">
+              <div className="flex flex-col gap-y-6">
+                <div className="relative">
+                  <div className="w-60">
+                    <Image
+                      src={OverlayText}
+                      alt={"Text overlay button"}
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="absolute top-[1.2rem] left-8 text-2xl text-white font-sansationB">
+                    Connect Wallet
+                  </div>
+                </div>
+                <div className="text-lg w-[85%]">
+                  User can simply connect wallet though the Connect Wallet
+                  button in the navbar. After choosing specific connector, user
+                  have to select Polygon Mainnet for connecting to our dapp,
+                  because this is the chain used for deploying Videomon.
+                </div>
+              </div>
+              <div>
+                <div className="relative mr-20">
+                  <div className="z-10 w-[450px]">
+                    <Image
+                      src={OverlayPlayerLight}
+                      alt={"Overlay player"}
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="absolute inset-0 top-[0.9rem] left-[1.1rem] z-0">
+                    <Image
+                      src={Uzui}
+                      alt={"Connect WALLET vid"}
+                      style={{ width: "415px", height: "200px" }}
+                      draggable={false}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* ----------------------------------------------------------------------- */}
+            {/* ----------------------------------------------------------------------- */}
+            <div className="relative flex gap-x-20 pt-20">
+              <div>
+                <div className="relative mr-20">
+                  <div className="z-10 w-[450px]">
+                    <Image
+                      src={OverlayPlayerLight}
+                      alt={"Overlay player"}
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="absolute inset-0 top-[0.9rem] left-[1.1rem] z-0">
+                    <Image
+                      src={Uzui}
+                      alt={"Connect WALLET vid"}
+                      style={{ width: "415px", height: "200px" }}
+                      draggable={false}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-y-6">
+                <div className="relative">
+                  <div className="w-60">
+                    <Image
+                      src={OverlayText}
+                      alt={"Text overlay button"}
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="absolute top-[1.2rem] left-10 text-2xl text-white font-sansationB">
+                    Upload Video
+                  </div>
+                </div>
+                <div className="text-lg w-[85%]">
+                  To upload a video, one can simply click on upload button in
+                  the sidebar to be redirected to upload video page, where he
+                  would have to simply fill in the required details about the
+                  video. After this user can upload his/her video by clicking on
+                  the upload button. User can view their uploaded videos in the
+                  profile section.
+                </div>
+              </div>
+            </div>
+            {/* ----------------------------------------------------------------------- */}
+            {/* ----------------------------------------------------------------------- */}
+            <div className="relative">
+              {/* <div className="absolute w-40">
+                <Image src={Livestream} alt={"Live stream image"} />
+              </div> */}
+              <div className="relative flex gap-x-20 pt-20">
+                <div className="flex flex-col gap-y-6">
+                  <div className="relative">
+                    <div className="w-60">
+                      <Image
+                        src={OverlayText}
+                        alt={"Text overlay button"}
+                        draggable={false}
+                      />
+                    </div>
+                    <div className="absolute top-[1.2rem] left-10 text-2xl text-white font-sansationB">
+                      Create Stream
+                    </div>
+                  </div>
+                  <div className="text-lg w-[85%]">
+                    For creating a stream, user have to navigate to create
+                    stream page through the create button on sidebar, where he
+                    would have to fill the necesaary details of the stream.
+                    After all this he can simply create a stream through the
+                    given button Create Stream.
+                  </div>
+                </div>
+                <div>
+                  <div className="relative mr-20">
+                    <div className="z-10 w-[450px]">
+                      <Image
+                        src={OverlayPlayerLight}
+                        alt={"Overlay player"}
+                        draggable={false}
+                      />
+                    </div>
+                    <div className="absolute inset-0 top-[0.9rem] left-[1.1rem] z-0">
+                      <Image
+                        src={Uzui}
+                        alt={"Connect WALLET vid"}
+                        style={{ width: "415px", height: "200px" }}
+                        draggable={false}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* ----------------------------------------------------------------------- */}
+          <div className="text-4xl font-sansationB mt-40 text-center w-full ">
+            Technologies Used
+          </div>
+          {/* ----------------------------------------------------------------------- */}
+          <div className="flex flex-col gap-y-20">
+            <div className="relative flex gap-x-20 pt-20">
+              <div className="flex flex-col gap-y-6">
+                <div className="relative">
+                  <div className="w-60">
+                    <Image
+                      src={OverlayText}
+                      alt={"Text overlay button"}
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="absolute top-[1.2rem] left-[4rem] text-2xl text-white font-sansationB">
+                    ARCANA
+                  </div>
+                </div>
+                <div className="text-lg w-[85%]">
+                  We have integrated our Dapp that uses RainbowKit with Arcana
+                  Auth SDK.Users can choose and use Arcana wallet or one of the
+                  built-in wallet connectors in wagmi and sign blockchain
+                  transactions.
+                </div>
+              </div>
+              <div>
+                <div className="relative mr-20">
+                  <div className="z-10 w-[450px]">
+                    <Image
+                      src={OverlayPlayerLight}
+                      alt={"Overlay player"}
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="absolute inset-0 top-[0.9rem] left-[1.1rem] z-0">
+                    <Image
+                      src={Uzui}
+                      alt={"Connect WALLET vid"}
+                      style={{ width: "415px", height: "200px" }}
+                      draggable={false}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* ----------------------------------------------------------------------- */}
+            {/* ----------------------------------------------------------------------- */}
+            <div className="relative flex gap-x-20 pt-20">
+              <div>
+                <div className="relative mr-20">
+                  <div className="z-10 w-[450px]">
+                    <Image
+                      src={OverlayPlayerLight}
+                      alt={"Overlay player"}
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="absolute inset-0 top-[0.9rem] left-[1.1rem] z-0">
+                    <Image
+                      src={Uzui}
+                      alt={"Connect WALLET vid"}
+                      style={{ width: "415px", height: "200px" }}
+                      draggable={false}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-y-6">
+                <div className="relative">
+                  <div className="w-60">
+                    <Image
+                      src={OverlayText}
+                      alt={"Text overlay button"}
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="absolute top-[1.2rem] left-14 text-2xl text-white font-sansationB">
+                    LIVEPEER
+                  </div>
+                </div>
+                <div className="text-lg w-[85%]">
+                  Since Livepeer provides a decentralized video infrastructure
+                  network. Therefore, we used this for storing and uploading
+                  videos, and also making those available to Videomon users.
+                </div>
+              </div>
+            </div>
+            {/* ----------------------------------------------------------------------- */}
+            {/* ----------------------------------------------------------------------- */}
+            <div className="relative flex gap-x-20 pt-20">
+              <div className="flex flex-col gap-y-6">
+                <div className="relative">
+                  <div className="w-60">
+                    <Image
+                      src={OverlayText}
+                      alt={"Text overlay button"}
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="absolute top-[1.2rem] left-10 text-2xl text-white font-sansationB">
+                    SUPERFLUID
+                  </div>
+                </div>
+                <div className="text-lg w-[85%]">
+                  To charge viewer and make stream available to him
+                  simultaneously, we have used Superfluid.
+                </div>
+              </div>
+              <div>
+                <div className="relative mr-20">
+                  <div className="z-10 w-[450px]">
+                    <Image
+                      src={OverlayPlayerLight}
+                      alt={"Overlay player"}
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="absolute inset-0 top-[0.9rem] left-[1.1rem] z-0">
+                    <Image
+                      src={Uzui}
+                      alt={"Connect WALLET vid"}
+                      style={{ width: "415px", height: "200px" }}
+                      draggable={false}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
