@@ -5,7 +5,7 @@ import { useSigner, useContract, useAccount } from "wagmi";
 import contractConfig from "../contractConfig.json";
 import { ethers } from "ethers";
 import { useRouter } from "next/router";
-
+import Head from "next/head";
 import { assestResDum } from "@/helpers/assetRespDum";
 import Image from "next/image";
 import tanjiro from "../public/images/tanjiro.webp";
@@ -75,40 +75,89 @@ const Explore = () => {
   };
 
   return (
-    <div>
-      <div
-        className={`${
-          loading
-            ? "z-10 absolute  w-[70rem] h-[34rem] flex justify-center items-center"
-            : "w-0 h-0"
-        }`}
-      >
-        {loading ? (
-          <PropagateLoader color={"#76DDDD"} loading={loading} size={16} />
-        ) : (
-          <></>
-        )}
-      </div>
-      <div className={`z-0 ${loading ? "opacity-30" : ""}`}>
-        <div className="pt-10 pb-10">
-          <div className="w-full flex gap-x-20 mb-8">
-            <div
-              onClick={() => {
-                setVideoExplore(true);
-                setStreamExplore(false);
-              }}
-            >
-              <CyanBtn data={"Videos"} className="text-2xl" />
+    <>
+      <Head>
+        <title>Videomon</title>
+      </Head>
+      <div>
+        <div
+          className={`${
+            loading
+              ? "z-10 absolute  w-[70rem] h-[34rem] flex justify-center items-center"
+              : "w-0 h-0"
+          }`}
+        >
+          {loading ? (
+            <PropagateLoader color={"#76DDDD"} loading={loading} size={16} />
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className={`z-0 ${loading ? "opacity-30" : ""}`}>
+          <div className="pt-10 pb-10">
+            <div className="w-full flex gap-x-20 mb-8">
+              <div
+                onClick={() => {
+                  setVideoExplore(true);
+                  setStreamExplore(false);
+                }}
+              >
+                <CyanBtn data={"Videos"} className="text-2xl" />
+              </div>
+              <div
+                onClick={() => {
+                  setVideoExplore(false);
+                  setStreamExplore(true);
+                  console.log(signer, context.signer, context.contractEthers);
+                }}
+              >
+                <CyanBtn data={"Streams"} className="text-2xl" />
+              </div>
             </div>
-            <div
-              onClick={() => {
-                setVideoExplore(false);
-                setStreamExplore(true);
-                console.log(signer, context.signer, context.contractEthers);
-              }}
-            >
-              <CyanBtn data={"Streams"} className="text-2xl" />
-            </div>
+            {/* <div>{context.superTokenBalance}</div> */}
+            {/* <span>{context.allVideos[0].videoId.toString()}</span> */}
+            <div className="text-4xl font-sansationR pb-8">Explore</div>
+            {videoExplore ? (
+              <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
+                {/* mapping into divs */}
+                {context.allVideos?.map((video, index) => {
+                  return (
+                    <VideoComponent
+                      key={video.cId}
+                      video={video}
+                      setLoading={setLoading}
+                    />
+                  );
+                })}
+                {context.allVideos.length == 0 && (
+                  <span className="text-4xl font-sansationR pb-8">
+                    There are no videos
+                  </span>
+                )}
+                {/* mapping into divs */}
+              </div>
+            ) : (
+              <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
+                {/* mapping into divs */}
+                {context.uploadedStreams?.map((stream, index) => {
+                  return (
+                    <>
+                      <StreamComponent
+                        key={stream.cId}
+                        stream={stream}
+                        setLoading={setLoading}
+                      />
+                    </>
+                  );
+                })}
+                {context.uploadedStreams.length == 0 && (
+                  <span className="text-4xl font-sansationR pb-8">
+                    There are no Live streams
+                  </span>
+                )}
+                {/* mapping into divs */}
+              </div>
+            )}
           </div>
           {/* <div>{context.superTokenBalance}</div> */}
           {/* <span>{context.allVideos[0].videoId.toString()}</span> */}
@@ -117,7 +166,7 @@ const Explore = () => {
             <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
               {/* mapping into divs */}
               {context.allVideos?.map((video, index) => {
-                return <VideoComponent key={video.cId} video={video} setLoading={setLoading}/>;
+                return <VideoComponent key={video.cId} video={video} />;
               })}
               {context.allVideos.length == 0 && (
                 <span className="text-4xl font-sansationR pb-8">
@@ -132,7 +181,7 @@ const Explore = () => {
               {context.uploadedStreams?.map((stream, index) => {
                 return (
                   <>
-                    <StreamComponent key={stream.cId} stream={stream} setLoading={setLoading}/>
+                    <StreamComponent key={stream.cId} stream={stream} />
                   </>
                 );
               })}
@@ -145,42 +194,8 @@ const Explore = () => {
             </div>
           )}
         </div>
-        {/* <div>{context.superTokenBalance}</div> */}
-        {/* <span>{context.allVideos[0].videoId.toString()}</span> */}
-        <div className="text-4xl font-sansationR pb-8">Explore</div>
-        {videoExplore ? (
-          <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
-            {/* mapping into divs */}
-            {context.allVideos?.map((video, index) => {
-              return <VideoComponent key={video.cId} video={video} />;
-            })}
-            {context.allVideos.length == 0 && (
-              <span className="text-4xl font-sansationR pb-8">
-                There are no videos
-              </span>
-            )}
-            {/* mapping into divs */}
-          </div>
-        ) : (
-          <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
-            {/* mapping into divs */}
-            {context.uploadedStreams?.map((stream, index) => {
-              return (
-                <>
-                  <StreamComponent key={stream.cId} stream={stream} />
-                </>
-              );
-            })}
-            {context.uploadedStreams.length == 0 && (
-              <span className="text-4xl font-sansationR pb-8">
-                There are no Live streams
-              </span>
-            )}
-            {/* mapping into divs */}
-          </div>
-        )}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -16,6 +16,13 @@ import darkFluid from "../public/images/fluid dark green.png";
 import lightFluid from "../public/images/fluid light green.png";
 import Livestream from "../public/images/Live Stream.png";
 import LandingPageAnimatedBg from "../components/background";
+import Arcana from "../public/images/arcana.png";
+import Liverpeer from "../public/images/livepeerLogo.jpg";
+import Superfluid from "../public/images/superFluidlogo.png";
+import dynamic from "next/dynamic";
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
+import ConnectGif from "../public/assets/gif/Wallet Connection.gif";
+import UploadGif from "../public/assets/gif/upload video.gif";
 
 const Home = () => {
   const router = useRouter();
@@ -125,7 +132,7 @@ const Home = () => {
                     </div>
                     <div className="absolute inset-0 top-[0.9rem] left-[1.1rem] z-0">
                       <Image
-                        src={Uzui}
+                        src={ConnectGif}
                         alt={"Connect WALLET vid"}
                         style={{ width: "415px", height: "200px" }}
                         draggable={false}
@@ -148,7 +155,7 @@ const Home = () => {
                     </div>
                     <div className="absolute inset-0 top-[0.9rem] left-[1.1rem] z-0">
                       <Image
-                        src={Uzui}
+                        src={UploadGif}
                         alt={"Connect WALLET vid"}
                         style={{ width: "415px", height: "200px" }}
                         draggable={false}
@@ -217,12 +224,14 @@ const Home = () => {
                         />
                       </div>
                       <div className="absolute inset-0 top-[0.9rem] left-[1.1rem] z-0">
-                        <Image
-                          src={Uzui}
-                          alt={"Connect WALLET vid"}
-                          style={{ width: "415px", height: "200px" }}
-                          draggable={false}
-                        />
+                        <div>
+                          <ReactPlayer
+                            url="https://youtu.be/rPcPDbzTxqQ"
+                            width="410px"
+                            height="195px"
+                            controls
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -267,7 +276,7 @@ const Home = () => {
                     </div>
                     <div className="absolute inset-0 top-[0.9rem] left-[1.1rem] z-0">
                       <Image
-                        src={Uzui}
+                        src={Arcana}
                         alt={"Connect WALLET vid"}
                         style={{ width: "415px", height: "200px" }}
                         draggable={false}
@@ -290,7 +299,7 @@ const Home = () => {
                     </div>
                     <div className="absolute inset-0 top-[0.9rem] left-[1.1rem] z-0">
                       <Image
-                        src={Uzui}
+                        src={Liverpeer}
                         alt={"Connect WALLET vid"}
                         style={{ width: "415px", height: "200px" }}
                         draggable={false}
@@ -315,6 +324,7 @@ const Home = () => {
                     Since Livepeer provides a decentralized video infrastructure
                     network. Therefore, we used this for storing and uploading
                     videos, and also making those available to Videomon users.
+                    Livepeer is also used to create Streams from OBS.
                   </div>
                 </div>
               </div>
@@ -336,7 +346,11 @@ const Home = () => {
                   </div>
                   <div className="text-lg w-[85%]">
                     To charge viewer and make stream available to him
-                    simultaneously, we have used Superfluid.
+                    simultaneously, we have used Superfluid. Via superfluid any
+                    user is able to view stream/ video and is charged on the
+                    basis of the flow rate. Also, superfluid is used to ensure
+                    perfect flow of tokens when any user is watching stream/
+                    video.
                   </div>
                 </div>
                 <div>
@@ -350,7 +364,7 @@ const Home = () => {
                     </div>
                     <div className="absolute inset-0 top-[0.9rem] left-[1.1rem] z-0">
                       <Image
-                        src={Uzui}
+                        src={Superfluid}
                         alt={"Connect WALLET vid"}
                         style={{ width: "415px", height: "200px" }}
                         draggable={false}

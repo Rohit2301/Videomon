@@ -118,7 +118,7 @@ export const VideoPriceInput = ({ label, setVideoPrice, videoDuration }) => {
         }`}
       >
         <span className="mr-4">FLOW RATE</span>
-        {`${(price / videoDuration).toFixed(2)}`}
+        {`${(price / videoDuration).toFixed(5)}`}
       </div>
     </div>
   );

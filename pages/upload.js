@@ -255,16 +255,18 @@ const Upload = () => {
 
                 {/* <div>{context.videoDuration}</div> */}
               </div>
-              {/* drop modla and form  */}
-              <div className="relative w-32 right-20 top-[-2rem]">
-                <CyanBtn invalid={!allRight}>
-                  <input
-                    type={allRight ? "submit" : "button"}
-                    value="Upload"
-                    className="cursor-pointer"
-                    onClick={() => {}}
-                  />
-                </CyanBtn>
+              <div className="">
+                {/* drop modla and form  */}
+                <div className="relative w-32 right-20 top-[-2rem]">
+                  <CyanBtn invalid={!allRight}>
+                    <input
+                      type={allRight ? "submit" : "button"}
+                      value="Upload"
+                      className="cursor-pointer"
+                      onClick={() => {}}
+                    />
+                  </CyanBtn>
+                </div>
               </div>
             </div>
           </form>

@@ -15,6 +15,7 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import Link from "next/link";
 import SuperMatic from "@/components/superMatic";
+import Head from "next/head";
 
 const Profile = () => {
   const router = useRouter();
@@ -53,59 +54,64 @@ const Profile = () => {
     });
   }, []);
   return (
-    <div className="">
-      <div className="font-sansationR text-4xl pt-12 pb-8">
-        {getEllipsisTxt(address, 6)}
-      </div>
-      <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
-        {context.uploadedVideos?.map((video, index) => {
-          return (
-            <div key={index} className="font-sansationR">
-              <div className="w-80 cursor-pointer">
-                <div className="w-full h-[11.25rem]">
-                  <img
-                    src={`https://ipfs.io/ipfs/${video.videoPic}`}
-                    // src={tanjiro}
-                    alt={"rrr image"}
-                    className="w-full h-full object-contain sidebarGradient hover:border hover:border-cyan hover:border-2 hover:animate-pulse"
-                    style={{
-                      borderRadius: "2rem 2rem 1rem 1rem ",
-                    }}
-                    onClick={() => {
-                      router.push(
-                        {
-                          pathname: "/profilePlayer",
-                          query: { playbackId: video.cId },
-                        },
-                        "/profilePlayer"
-                      );
-                    }}
-                  />
+    <>
+      <Head>
+        <title>Videomon</title>
+      </Head>
+      <div className="">
+        <div className="font-sansationR text-4xl pt-12 pb-8">
+          {getEllipsisTxt(address, 6)}
+        </div>
+        <div className="grid gap-x-14 gap-y-10 grid-flow-row grid-cols-3">
+          {context.uploadedVideos?.map((video, index) => {
+            return (
+              <div key={index} className="font-sansationR">
+                <div className="w-80 cursor-pointer">
+                  <div className="w-full h-[11.25rem]">
+                    <img
+                      src={`https://ipfs.io/ipfs/${video.videoPic}`}
+                      // src={tanjiro}
+                      alt={"rrr image"}
+                      className="w-full h-full object-contain sidebarGradient hover:border hover:border-cyan hover:border-2 hover:animate-pulse"
+                      style={{
+                        borderRadius: "2rem 2rem 1rem 1rem ",
+                      }}
+                      onClick={() => {
+                        router.push(
+                          {
+                            pathname: "/profilePlayer",
+                            query: { playbackId: video.cId },
+                          },
+                          "/profilePlayer"
+                        );
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="flex justify-between items-center text-white text-lg font-sansationB">
-                <div>{video.videoTitle}</div>
-                <div className="text-sm">
-                  {SecondsToHms(parseFloat(video.duration / 10 ** 18))}
+                <div className="flex justify-between items-center text-white text-lg font-sansationB">
+                  <div>{video.videoTitle}</div>
+                  <div className="text-sm">
+                    {SecondsToHms(parseFloat(video.duration / 10 ** 18))}
+                  </div>
                 </div>
-              </div>
-              <div className="flex justify-between items-center text-white text-lg font-sansationB">
-                <div className="text-grey text-sm">{video.videoDesp}</div>
-                {/* <div className="flex flex-row justify-center items-center gap-2">
+                <div className="flex justify-between items-center text-white text-lg font-sansationB">
+                  <div className="text-grey text-sm">{video.videoDesp}</div>
+                  {/* <div className="flex flex-row justify-center items-center gap-2">
                 <span>{parseFloat(video.flowRate/10**18).toPrecision(2)}</span>
                 <SuperMatic></SuperMatic>
                 <span className="text-grey text-xs">/s</span>
               </div> */}
-              </div>
+                </div>
 
-              <div className="text-grey text-xs">
-                {timeAgo.format(video.uploadDate * 1000)}
+                <div className="text-grey text-xs">
+                  {timeAgo.format(video.uploadDate * 1000)}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 export default Profile;
